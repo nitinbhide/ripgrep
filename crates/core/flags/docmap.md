@@ -2,7 +2,7 @@
 folder: "crates/core/flags"
 generated_on: "2026-10-06"
 num_files: 21
-semantic_tags: [argument-parsing, bash, cli, completions, documentation-generation, fish, flags, help, man-page, powershell, rust, typed-configuration, version, zsh]
+semantic_tags: [argument-parsing, bash, build-metadata, cli, completions, configuration, cpu-features, documentation, documentation-generation, documentation-metadata, encodings, fish, flags, help, man-page, markup, parsing, pcre2, powershell, roff, rust, search-configuration, shared-interface, shell, shell-completion, template, text, typed-configuration, version, zsh]
 todos_present: true
 dependencies: []
 ---
@@ -24,8 +24,10 @@ This is Rust code using typed enums and structs to represent CLI settings, `anyh
 
 ## Merged Child Folders
 - `complete/` —
+  - Tags: [bash, cli, completions, encodings, fish, powershell, rust, shell, shell-completion, zsh]. TODO/FIXME/NOTE: present; see indexed files.
   This folder provides shell completion resources and generators for ripgrep's command-line flags. Bash, Fish, and PowerShell completion text is generated from the shared flag metadata, while the Zsh completion is maintained as a detailed hand-written script. Shared encoding aliases and Fish helper logic are included by the generators. The files must stay aligned with the flags in the parent module.
 - `doc/` —
+  - Tags: [build-metadata, cli, cpu-features, documentation, documentation-generation, help, man-page, markup, pcre2, roff, rust, template, text, version]. TODO/FIXME/NOTE: present; see indexed files.
   This folder renders ripgrep's flag metadata into user-facing help text, a roff man page, and build/version descriptions. The Rust generators draw descriptions and categories from the shared flag definitions, while the three templates provide the output layouts. This keeps documentation generation tied to the executable's actual supported options. Feature-gated index documentation is replaced with a not-supported notice when indexing is unavailable.
 ## Files
 - `config.rs` (Size : 4961 bytes): Reads `RIPGREP_CONFIG_PATH` and converts each nonblank, non-comment line into one shell argument. It reports read and parse errors through ripgrep's message mechanism while preserving successfully parsed arguments, and tests normal and platform-dependent invalid-byte handling. Tags: [configuration, parsing, rust].

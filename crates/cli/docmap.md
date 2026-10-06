@@ -2,7 +2,7 @@
 folder: "crates/cli"
 generated_on: "2026-10-06"
 num_files: 12
-semantic_tags: [byte-handling, cargo, cli-utilities, compression, error-reporting, process-management, rust, search]
+semantic_tags: [api, buffering, byte-handling, cargo, child-process, cli-utilities, color, compression, crate-documentation, crate-manifest, error-handling, error-reporting, escaping, glob-matching, hostname, human-readable-size, license, mit, parsing, pattern-parsing, platform-specific, process-management, rust, search, stdin-detection, stdout, streaming-io, system-information, terminal, unlicense, utf-8]
 todos_present: true
 dependencies: []
 ---
@@ -24,6 +24,7 @@ The crate is written in Rust and uses Cargo workspace settings for its edition a
 
 ## Merged Child Folders
 - `src/` —
+  - Tags: [api, buffering, byte-handling, child-process, cli-utilities, color, compression, error-handling, error-reporting, escaping, glob-matching, hostname, human-readable-size, parsing, pattern-parsing, platform-specific, process-management, rust, stdin-detection, stdout, streaming-io, system-information, terminal, utf-8]. TODO/FIXME/NOTE: present; see indexed files.
   This folder implements the reusable Rust utility API exposed by the `grep-cli` crate. Its modules cover terminal output, process and stream helpers, input pattern handling, byte escaping, compression, and platform information. The code is designed for search-oriented command-line programs and contains focused unit tests alongside the implementations. Public exports are collected in `lib.rs`.
 ## Files
 - `Cargo.toml` (Size : 848 bytes): Defines the `grep-cli` package metadata, documentation and repository URLs, Rust workspace edition/version settings, and dependencies. It includes conditional dependencies on `winapi-util` for Windows and `libc` for Unix. Tags: [cargo, crate-manifest, rust].

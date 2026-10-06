@@ -2,7 +2,7 @@
 folder: "crates/searcher/src"
 generated_on: "2026-10-06"
 num_files: 10
-semantic_tags: [binary-detection, file-input, line-buffering, line-search, memory-mapping, rust, search, search-configuration, searcher, searcher-api, search-events, sink, sinks]
+semantic_tags: [binary-detection, buffering, byte-processing, callbacks, crate-api, documentation, file-input, io, line-buffering, line-iteration, line-search, macro, matcher, memory-mapping, rust, search, search-configuration, searcher, searcher-api, search-events, sink, sinks, testing, test-support]
 todos_present: true
 dependencies: []
 ---
@@ -24,6 +24,7 @@ The source is Rust and uses byte-oriented search types from `bstr` and `grep-mat
 
 ## Merged Child Folders
 - `searcher/` —
+  - Tags: [file-input, line-buffering, line-search, memory-mapping, rust, search-configuration, searcher, search-events, sinks]. TODO/FIXME/NOTE: present; see indexed files.
   This folder implements the internal engines behind the public `Searcher` API. A core component tracks offsets, line numbers, context, match counts, and binary status while delivering events to a sink. Glue code selects and coordinates line-by-line or multiline search over buffered, slice, and reader inputs. The mmap module controls whether file-backed memory maps are considered for a search.
 ## Files
 - `lib.rs` (Size : 3824 bytes): Documents the searcher's role in applying a matcher to input and pushing match, context, and lifecycle results to a sink. It describes line- and multiline-search responsibilities and gives a `Searcher`/`UTF8` example. The public API re-exports searcher configuration, sink types, and line iterators. Private modules separate buffering, line processing, search execution, sink behavior, and tests.

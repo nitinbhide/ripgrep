@@ -2,7 +2,7 @@
 folder: "crates/core"
 generated_on: "2026-10-06"
 num_files: 9
-semantic_tags: [cli, feature-gating, file-traversal, indexing, rust, search]
+semantic_tags: [cli, command-dispatch, conditional-compilation, crate-documentation, error-reporting, feature-gating, file-traversal, filtering, indexing, logging, macros, matching, preprocessing, rust, search, streaming-io]
 todos_present: true
 dependencies: []
 ---
@@ -24,6 +24,7 @@ The executable is implemented in Rust and composes the workspace's `grep`, `igno
 
 ## Merged Child Folders
 - `index/` —
+  - Tags: [conditional-compilation, feature-gating, indexing, rust, search]. TODO/FIXME/NOTE: none.
   This folder selects the implementation of the optional search-index operations. Its module boundary keeps indexed-search behavior behind the `unstable-index` feature while providing a consistent interface to the rest of ripgrep core. The feature-disabled implementation reports that indexing is unavailable. The enabled implementation opens or writes an index and routes searches through the regular search workers.
 ## Files
 - `README.md` (Size : 689 bytes): Describes the role of the ripgrep core crate, identifying `main.rs` as the executable entry point and summarizing the CLI definition and glue between matcher, searcher, and printer crates. It notes that core is not planned as an independent library and that reusable heavy lifting lives in constituent crates. Tags: [crate-documentation, rust, search].

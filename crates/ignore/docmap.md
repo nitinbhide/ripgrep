@@ -2,7 +2,7 @@
 folder: "crates/ignore"
 generated_on: "2026-10-06"
 num_files: 19
-semantic_tags: [api, bom-handling, cargo, default-types, directory-matching, directory-traversal, directory-walking, error-handling, example, file-filtering, filename-matching, file-types, gitignore, glob-matching, ignore-crate, ignore-overrides, ignore-rules, incremental-matching, integration-tests, parallelism, path-filtering, path-normalization, regression-tests, rust, test-fixture, test-fixtures, testing, utf-8, walker, whitelist]
+semantic_tags: [api, bom-handling, cargo, crate-manifest, default-types, directory-matching, directory-traversal, directory-walking, documentation, error-handling, example, file-filtering, filename-matching, file-types, gitignore, glob-matching, ignore-crate, ignore-overrides, ignore-rules, incremental-matching, integration-tests, license, licensing, mit, parallelism, path-filtering, path-normalization, public-domain, regression-tests, rust, terms, test-fixture, test-fixtures, testing, unlicense, usage-example, utf-8, walker, whitelist]
 todos_present: true
 dependencies: []
 ---
@@ -24,10 +24,13 @@ The package is implemented in Rust and built with Cargo. Its documentation descr
 
 ## Merged Child Folders
 - `examples/` —
+  - Tags: [directory-traversal, example, ignore-crate, rust]. TODO/FIXME/NOTE: none.
   This folder demonstrates using the `ignore` crate to traverse a directory tree. Its example accepts a root path and supports ordinary sequential walking as well as parallel walking. A third mode uses `walkdir` directly for comparison. All modes emit the discovered entry paths through a buffered stdout thread.
 - `src/` —
+  - Tags: [api, default-types, directory-matching, directory-traversal, error-handling, filename-matching, file-types, gitignore, glob-matching, ignore-crate, ignore-overrides, ignore-rules, incremental-matching, parallelism, path-filtering, path-normalization, rust, walker, whitelist]. TODO/FIXME/NOTE: present; see indexed files.
   This folder implements the crate's ignore-aware traversal and path-filtering behavior. It combines hierarchical `.ignore` and gitignore matchers, override globs, file-type selections, hidden-path checks, and path utilities. `walk.rs` exposes sequential and parallel traversal, while `incremental.rs` provides cached path matching for callers that do not want to traverse a full tree. The modules use shared matcher state and directory ancestry to apply filtering in precedence order.
 - `tests/` —
+  - Tags: [bom-handling, gitignore, ignore-rules, integration-tests, rust, test-fixture, testing, utf-8]. TODO/FIXME/NOTE: none.
   This folder contains integration tests and fixture files for gitignore matching behavior. One test exercises path-or-parent matching over root and nested file and directory cases. Another verifies that a UTF-8 byte-order mark at the start of an ignore file is skipped. The fixtures encode the expected pattern rules used by these tests.
 ## Files
 - `Cargo.toml` (Size : 1281 bytes): Declares the `ignore` Rust package, its version, description, workspace edition, and Rust version requirement. It lists glob matching, traversal, logging, file identity, and regex-automata dependencies, including a Windows-specific helper. Development dependencies support byte strings and channels. The manifest declares a deprecated no-op SIMD feature.

@@ -2,7 +2,7 @@
 folder: "crates/globset"
 generated_on: "2026-10-06"
 num_files: 11
-semantic_tags: [aho-corasick, api, benchmarking, glob-matching, glob-parsing, glob-patterns, glob-sets, hashing, hash-table, path-matching, path-parsing, performance, performance-testing, regex, rust, serde, serialization, string-processing, workspace-crate]
+semantic_tags: [aho-corasick, api, benchmarking, cargo, dependencies, documentation, glob-matching, glob-parsing, glob-patterns, glob-sets, hashing, hash-table, license, mit, path-matching, path-parsing, performance, performance-testing, regex, rust, serde, serialization, string-processing, unlicense, workspace-crate]
 todos_present: true
 dependencies: []
 ---
@@ -24,8 +24,10 @@ Rust library crate; uses `regex-automata`, `regex-syntax`, `aho-corasick`, and `
 
 ## Merged Child Folders
 - `benches/` —
+  - Tags: [benchmarking, glob-matching, performance-testing, rust]. TODO/FIXME/NOTE: none.
   This folder measures the performance of glob matching implementations. Its benchmark cases compare the glob crate against globset for extension, short-path, long-path, and multiple-pattern workloads. The results exercise both individual matchers and set-based matching against candidate paths. This folder contains one Rust benchmark source file.
 - `src/` —
+  - Tags: [api, glob-matching, glob-parsing, glob-sets, hashing, hash-table, path-matching, path-parsing, performance, regex, rust, serde, serialization, string-processing]. TODO/FIXME/NOTE: present; see indexed files.
   This folder implements the `globset` crate's glob parsing and path-matching functionality. It provides public APIs for building individual glob patterns and sets of patterns, then matching candidate paths against them. Glob syntax is parsed into tokens and compiled into byte-oriented regular expressions, with specialized strategies to speed up common literal, basename, extension, prefix, and suffix cases. Supporting modules provide path component handling, an internal FNV hasher, and optional Serde integration.
 ## Files
 - `Cargo.toml` (Size : 1534 bytes): Declares the `globset` Rust library crate and its package metadata. It configures the crate's `regex-automata`, `regex-syntax`, `aho-corasick`, and `bstr` dependencies, along with optional serde and arbitrary support. The `simd-accel` feature is documented as deprecated and a no-op. Development dependencies support comparison and serialization tests.

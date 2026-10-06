@@ -2,7 +2,7 @@
 folder: "/"
 generated_on: "2026-10-06"
 num_files: 28
-semantic_tags: [bash, benchmarking, benchmark-runner, cargo, ci, cli, command-line, command-line-search, documentation, examples, fuzzing, glob, homebrew, libfuzzer, linux, macos, manifest, packaging, python, release, ruby, rust, search-performance, shell, testing, utf-8, windows, zsh]
+semantic_tags: [ai-policy, application-manifest, bash, benchmarking, benchmark-runner, build-script, build-support, cargo, cargo-fuzz, changelog, checksums, ci, cli, command-line, command-line-search, command-line-tool, completion, configuration, contribution-guidance, dependency-lockfile, documentation, documentation-extraction, examples, faq, filtering, formatting, fuzzing, glob, glob-matching, homebrew, libfuzzer, license, linux, long-path-awareness, low-confidence, macos, manifest, mit, package-configuration, package-installation, packaging, performance-measurement, project-policy, public-domain, python, regex, release, release-history, release-process, ruby, rust, rust-examples, rustfmt, scripts, search, search-performance, shell, target-configuration, testing, tooling, troubleshooting, unlicense, user-documentation, utf-8, validation, verification, windows, workspace, zsh]
 todos_present: true
 dependencies: []
 ---
@@ -50,20 +50,28 @@ The `dependencies` metadata field remains an empty list until dependency extract
 ## Merged Child Folders
 `docmap.md` content from small folders is incorporated here only after every folder index has first been written in its source directory.
 - `benchsuite/` —
+  - Tags: [benchmarking, command-line-tool, performance-measurement, python]. TODO/FIXME/NOTE: present; see indexed files.
   This folder contains the benchsuite runner used to compare command-line search tools and an archive of captured benchmark runs. The runner defines searches over Linux and subtitle corpora, invokes external search commands, measures repeated executions, and reports timing and output counts. The `runs` child keeps dated raw data, summaries, and available environment notes. Read the runner for benchmark definitions and a specific run’s docmap for its captured evidence.
 - `ci/` —
+  - Tags: [build-support, checksums, ci, completion, linux, package-installation, release, shell, target-configuration, testing, validation, verification]. TODO/FIXME/NOTE: none.
   This folder contains scripts used by continuous integration and release workflows. It checks consistency between ripgrep's command-line options and its Zsh completion definitions, prepares Linux build environments, computes release checksums, and provides shared build-target helpers. The scripts cover Linux, macOS, and cross-compilation-related target handling.
 - `fuzz/` —
+  - Tags: [cargo, cargo-fuzz, dependency-lockfile, fuzzing, glob-matching, libfuzzer, package-configuration, rust, testing]. TODO/FIXME/NOTE: present; see indexed files.
   This folder defines a Cargo fuzzing package and documents how to install and run its fuzz targets. The package configures `cargo-fuzz`, builds the `fuzz_glob` target, and enables the `arbitrary` feature of the local `globset` crate. Its README explains how arbitrary inputs help find conversion and stability problems that are not prevented by Rust's type system. The target implementation summary is merged into this root index.
 - `fuzz/fuzz_targets/` —
+  - Tags: [fuzzing, glob-matching, libfuzzer, rust]. TODO/FIXME/NOTE: none.
   This folder contains the libFuzzer harness for checking glob parsing behavior. Its sole target receives arbitrary string inputs, ignores strings rejected by either constructor, and asserts equivalence for accepted inputs. It also checks that the parsed glob renders back to the original input string. The Cargo package manifest in the parent folder registers this target as `fuzz_glob`.
 - `pkg/` —
+  - Tags: [application-manifest, documentation, homebrew, long-path-awareness, packaging, release, ruby, utf-8, windows]. TODO/FIXME/NOTE: none.
   This folder contains platform-specific packaging metadata and documentation. The Homebrew formula packages prebuilt macOS and Linux release archives, while the Windows subfolder documents and configures application-manifest settings. There are no direct files in this folder in the retained inventory. The platform-specific contents are indexed by the child folder maps.
 - `pkg/brew/` —
+  - Tags: [homebrew, packaging, release, ruby]. TODO/FIXME/NOTE: none.
   This folder defines the Homebrew formula used to install ripgrep release binaries. The formula chooses a prebuilt archive according to whether Homebrew is running on macOS or Linux and pins the release version and checksums. Its install step places the executable, man page, and shell completion files in their Homebrew destinations. The formula also declares a conflict with the `ripgrep` formula.
 - `pkg/windows/` —
+  - Tags: [application-manifest, documentation, long-path-awareness, utf-8, windows]. TODO/FIXME/NOTE: none.
   This folder documents and configures Windows application-manifest settings for ripgrep. The manifest declares supported Windows versions, enables the UTF-8 active code page, and enables long-path awareness. The README explains how the manifest is linked into the final binary and identifies the build limitation stated by the documentation. Together, the files describe the Windows-specific settings and their build context.
 - `scripts/` —
+  - Tags: [documentation-extraction, rust-examples, scripts, tooling]. TODO/FIXME/NOTE: present; see indexed files.
   This folder contains a script that extracts example source files from Rust documentation code blocks. It reads a cookbook source file, recognizes fenced Rust or shortcode code blocks with marker lines, strips marker comment prefixes, and writes extracted content into a specified examples directory. The script exposes command-line options for selecting the source file and output directory. Its defaults point to the cookbook and grep example locations.
 ## Folders
 - `benchsuite/runs/docmap.md` — Index to dated benchmark archives, each containing raw measurements and summaries, with setup or version notes where recorded.
@@ -89,7 +97,7 @@ The `dependencies` metadata field remains an empty list until dependency extract
 - `CHANGELOG.md` : Records release history, grouped by version with platform changes, performance improvements, feature enhancements, and bug fixes. Recent entries describe improvements to ignore matching, line buffering, command-line options, and platform support. The document provides historical context for behavior changes and release notes. A top-level unreleased section is present.
     - Size : 91904 bytes
     - Tags: [changelog, release-history, rust]
-    - TODO/FIXME/NOTE: line 211: `todo!()`; line 337: `note`; line 365: `note`; line 576: `note`; line 584: `note`; line 821: `note`; line 962: `note`; line 1109: `note`; line 1278: `note`; line 1457: `note`; line 1653: `note`; line 1668: `note`; line 1804: `note`; line 1814: `note`; line 1830: `note`
+    - TODO/FIXME/NOTE: line 211: `todo!()`; line 337: `note`; line 365: `note`; line 576: `Note`; line 584: `note`; line 821: `note`; line 962: `Note`; line 1109: `Note`; line 1278: `Note`; line 1457: `Note`; line 1653: `Note`; line 1668: `note`; line 1804: `Note`; line 1814: `Note`; line 1830: `Note`
 
 - `CONTRIBUTING.md` : Directs contributors to follow the repository's AI Policy for AI use in contributions. It says contributions that do not follow that policy will be closed. The document is a short entry point to contribution-specific guidance. The linked policy contains the detailed requirements.
     - Size : 221 bytes

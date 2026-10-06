@@ -2,7 +2,7 @@
 folder: "tests"
 generated_on: "2026-10-06"
 num_files: 22
-semantic_tags: [binary-fixtures, binary-search, binary-test-fixture, cli, compressed-data, compressed-test-fixture, compression, indexing, integration-tests, json, nul-byte, options, regression-tests, rust, search-tests, test-data, test-organization, test-suite, text-corpus]
+semantic_tags: [binary-detection, binary-fixtures, binary-search, binary-test-fixture, cli, cli-features, compressed-data, compressed-test-fixture, compression, crlf, indexing, integration-tests, json, macros, mmap, multiline-search, nul-byte, options, regression-tests, rust, search, search-tests, serialization, test-data, test-fixture, test-organization, test-suite, test-support, text, text-corpus, utilities]
 todos_present: true
 dependencies: []
 confidence: high
@@ -26,8 +26,10 @@ The folder uses Rust test modules and exercises the ripgrep command-line executa
 
 ## Merged Child Folders
 - `data/` —
+  - Tags: [binary-test-fixture, compressed-test-fixture, compression, nul-byte, search-tests, text-corpus]. TODO/FIXME/NOTE: none.
   This folder contains fixed input fixtures used by the integration tests. The fixtures include compressed forms of a Sherlock Holmes text and a text corpus containing a NUL byte. Eight compressed files are binary and cannot be summarized from their payloads here. Their intended test role is visible in the test sources, so confidence for those file descriptions is low.
 - `index/` —
+  - Tags: [indexing, integration-tests, options, rust, test-organization]. TODO/FIXME/NOTE: none.
   This folder contains integration tests for ripgrep's indexing feature. Its module file groups a basic index interaction test and a suite documenting currently disallowed behavior. The tests use the shared integration-test command and directory helpers.
   The source comments identify the disallowed cases as restrictions that may change over time.
 ## Files

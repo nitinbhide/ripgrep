@@ -2,7 +2,7 @@
 folder: "crates/printer/src"
 generated_on: "2026-10-06"
 num_files: 13
-semantic_tags: [formatting, grep-printer, hyperlinks, path-encoding, path-formatting, path-matching, rust, search-output, terminal-output, uri-conversion]
+semantic_tags: [aggregate-output, aggregation, color, configuration, context-lines, crate-api, documentation, formatting, grep-output, grep-printer, hyperlinks, io, json, json-lines, macro, path, path-encoding, path-formatting, path-matching, path-output, printer, replacement, rust, search-output, search-results, serde, serialization, statistics, terminal-color, terminal-output, testing, uri-conversion, writer]
 todos_present: true
 dependencies: []
 ---
@@ -24,6 +24,7 @@ The implementation is Rust and integrates with `grep-searcher`, `grep-matcher`, 
 
 ## Merged Child Folders
 - `hyperlink/` —
+  - Tags: [hyperlinks, path-encoding, path-matching, rust, terminal-output, uri-conversion]. TODO/FIXME/NOTE: present; see indexed files.
   This folder contains hyperlink format configuration and the built-in alias table used by printer output. It supports templates whose variables are interpolated from paths, line positions, and process environment information. The format and environment APIs are exposed through the parent crate's public re-exports. The alias file supplies named presets for common editor and terminal URL schemes.
 ## Files
 - `color.rs` (Size : 13554 bytes): Defines errors for invalid color specifications, user-provided color specifications, and merged `ColorSpecs` used by printer output. It parses supported output targets and style/color attributes and supplies conservative defaults. The resulting specs are consumed by the crate's standard, summary, and path printers. Errors implement Rust's standard error and display interfaces.

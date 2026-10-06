@@ -2,7 +2,7 @@
 folder: "crates/regex"
 generated_on: "2026-10-06"
 num_files: 13
-semantic_tags: [api, ast, byte-analysis, byte-matching, captures, cargo, case-detection, configuration, crate-metadata, documentation, error-handling, hir, hir-transformation, licensing, line-terminator, literal-extraction, matcher-interface, optimization, regex, regex-compilation, regex-hir, regex-syntax, regex-validation, rust, search-optimization, smart-case]
+semantic_tags: [api, ast, byte-analysis, byte-matching, captures, cargo, case-detection, configuration, crate-metadata, dependencies, documentation, error-handling, grep, hir, hir-transformation, license, licensing, line-terminator, literal-extraction, manifest, matcher, matcher-interface, mit, optimization, public-domain, regex, regex-compilation, regex-hir, regex-syntax, regex-validation, rust, search-optimization, smart-case]
 todos_present: true
 dependencies: []
 ---
@@ -24,6 +24,7 @@ This is a Rust crate configured through Cargo and workspace-shared edition and m
 
 ## Merged Child Folders
 - `src/` —
+  - Tags: [api, byte-analysis, captures, case-detection, configuration, error-handling, hir-transformation, line-terminator, literal-extraction, matcher-interface, optimization, regex, regex-compilation, regex-hir, regex-syntax, regex-validation, rust, smart-case]. TODO/FIXME/NOTE: present; see indexed files.
   This source folder implements `grep-regex`, adapting Rust's regex automata to the `grep-matcher` API. It parses patterns, applies matcher-specific configuration, compiles HIR, and provides the public matcher and capture types. Supporting modules enforce byte and line-terminator constraints and derive safe search accelerations. Tests embedded in the Rust modules exercise these transformations and matching behavior.
 ## Files
 - `Cargo.toml` (Size : 729 bytes): Declares the `grep-regex` crate, its description, documentation and repository links, keywords, dual license, and workspace Rust settings. Its dependencies include the matcher interface, byte-string utilities, logging, regex automata, and regex syntax. The manifest explicitly positions this crate as the regex-engine implementation of the grep matcher interface. It is the package-level source for build metadata and dependency declarations.
