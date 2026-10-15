@@ -2,6 +2,10 @@
 
 The root `DOCMAP.md` and the cross-cutting maps are the preferred entry points for repository navigation. They are authoritative for high-level understanding and for deciding where to read source code and documentation.
 
+### Project Root Docmap
+
+- `DOCMAP.md` — repository-wide overview, package navigation, capabilities, and change-impact guidance.
+
 Use the repository navigation maps (docmaps) in this order:
 
 1. Start at `DOCMAP.md` for the repository overview, package entry points, and top-level navigation.

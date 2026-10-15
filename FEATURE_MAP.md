@@ -1,4 +1,4 @@
-# Feature Map
+﻿# Feature Map
 
 This map is derived from the repository `DOCMAP.md` and surviving folder
 `docmap.md` files. It records only capabilities and relationships described
@@ -27,7 +27,8 @@ there.
 - **Design/source:** The matcher contract, PCRE2 integration, and glob
   matching are summarized in `crates/docmap.md`; the Rust regex backend is
   indexed in `crates/regex/docmap.md`. Core flag parsing and search dispatch
-  are described in `crates/core/docmap.md`.
+  are described in `crates/core/docmap.md`; vimgrep column configuration is
+  detailed in `crates/core/flags/docmap.md`.
 - **Tests:** The feature, regression, and multiline entries in
   `tests/docmap.md` cover CLI behavior. Matcher tests are summarized in
   `crates/docmap.md`.
@@ -52,8 +53,10 @@ there.
   preprocessing.
 - **Design/source:** Search execution and preprocessing are described in
   `crates/core/search.rs`; line buffering, binary handling, and encoding are
-  indexed under `crates/searcher/src/docmap.md`; decompression utilities are
-  summarized in `crates/cli/docmap.md`.
+  indexed under `crates/searcher/src/docmap.md`; standard printer formatting,
+  including vimgrep end columns, is indexed under
+  `crates/printer/src/docmap.md`; decompression utilities are summarized in
+  `crates/cli/docmap.md`.
 - **Tests:** The multiline, binary, feature, and regression entries in
   `tests/docmap.md` cover corresponding CLI behavior. Compressed corpus
   fixtures are summarized in the merged `tests/data` section of that map.

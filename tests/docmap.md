@@ -1,6 +1,6 @@
----
+﻿---
 folder: "tests"
-generated_on: "2026-10-06"
+generated_on: "2026-10-15"
 num_files: 22
 semantic_tags: [binary-detection, binary-fixtures, binary-search, binary-test-fixture, cli, cli-features, compressed-data, compressed-test-fixture, compression, crlf, indexing, integration-tests, json, macros, mmap, multiline-search, nul-byte, options, regression-tests, rust, search, search-tests, serialization, test-data, test-fixture, test-organization, test-suite, test-support, text, text-corpus, utilities]
 todos_present: true
@@ -37,7 +37,7 @@ The folder uses Rust test modules and exercises the ripgrep command-line executa
     - Tags: [binary-detection, integration-tests, mmap, rust]
     - TODO/FIXME/NOTE: line 20 — `note`; line 31 — `Note`; line 66 — `Note`
 
-- `feature.rs` (Size : 39718 bytes): Contains feature-oriented CLI integration tests, with many cases linked in comments to issue numbers. The cases cover encoding, pattern sources, output fields, glob and ignore handling, depth and size limits, sorting, statistics, multiline and CRLF behavior, replacements, and exit statuses. Its test cases construct temporary fixtures and check CLI output or errors. The suite is the stated location for tests of new ripgrep features.
+- `feature.rs` (Size : 39995 bytes): Contains feature-oriented CLI integration tests, with many cases linked in comments to issue numbers. The cases cover encoding, pattern sources, output fields including vimgrep end columns, glob and ignore handling, depth and size limits, sorting, statistics, multiline and CRLF behavior, replacements, and exit statuses. Its test cases construct temporary fixtures and check CLI output or errors. The suite is the stated location for tests of new ripgrep features.
     - Tags: [cli-features, integration-tests, rust, search]
 
 - `hay.rs` (Size : 851 bytes): Defines shared Sherlock Holmes text constants in LF and CRLF forms. Other integration tests use these fixtures to check matching, line endings, and output formatting. The contents are string constants rather than test functions. The distinct line endings let callers select the matching fixture.
@@ -52,7 +52,7 @@ The folder uses Rust test modules and exercises the ripgrep command-line executa
 - `misc.rs` (Size : 39815 bytes): Contains miscellaneous CLI tests for common searches, output formats, filtering and ignore rules, replacement, context, sorting, compressed input, and binary handling. Its opening comment says additions should generally go in the feature or regression suite instead. The tests use the shared Sherlock fixture and test helpers. Individual tests set up small directory trees and verify command results.
     - Tags: [cli, integration-tests, rust, search]
 
-- `multiline.rs` (Size : 4123 bytes): Tests multiline search behavior, including overlapping matches, newline matching, dot-all mode, only-matching output, vimgrep formatting, stdin input, and context lines. The cases exercise ripgrep with the multiline option and compare exact results. Several cases use the shared Sherlock text fixture. The overlap tests create their own input text.
+- `multiline.rs` (Size : 4135 bytes): Tests multiline search behavior, including overlapping matches, newline matching, dot-all mode, only-matching output, vimgrep formatting with match end columns, stdin input, and context lines. The cases exercise ripgrep with the multiline option and compare exact results. Several cases use the shared Sherlock text fixture. The overlap tests create their own input text.
     - Tags: [integration-tests, multiline-search, rust, search]
 
 - `regression.rs` (Size : 56506 bytes): Collects issue-referenced regression tests for search, path traversal, ignore and glob rules, output formats, regex behavior, and command exit statuses. Cases build minimal directories and assert results for previously reported edge cases, including platform-specific cases. Tests use the shared fixture and test-command helpers where needed. The source also records two unresolved TODO comments and two NOTE comments.

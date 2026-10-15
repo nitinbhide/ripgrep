@@ -1,4 +1,4 @@
-# Architecture Map
+﻿# Architecture Map
 
 This map is derived only from the generated root and folder docmaps.
 
@@ -20,7 +20,7 @@ and core integration maps.
 | Candidate traversal and filtering | Select haystacks, walk directories, and apply ignore, glob, and file-type rules | `crates/core/docmap.md` and `crates/ignore/docmap.md` |
 | Matcher abstraction and engines | Define the matcher interface and provide Rust-regex, PCRE2, and glob matching | `crates/docmap.md`, `crates/regex/docmap.md` |
 | Search execution | Apply matchers to input and handle line/context events, buffering, binary detection, and encoding | `crates/searcher/src/docmap.md` |
-| Output and reporting | Format ordinary, summary, path, and JSON Lines results | `crates/printer/src/docmap.md` |
+| Output and reporting | Format ordinary, summary, path, and JSON Lines results, including optional vimgrep match end columns | `crates/printer/src/docmap.md` |
 | Shared CLI support | Provide process, pattern, decompression, and terminal utilities | `crates/cli/docmap.md` |
 | Public facade | Re-export component crates under a higher-level `grep` API | `crates/docmap.md` |
 | Optional indexed search | Provide index storage/query support and feature-gated CLI integration | `crates/docmap.md`, `crates/core/docmap.md` |

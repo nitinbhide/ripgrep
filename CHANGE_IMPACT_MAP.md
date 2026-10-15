@@ -1,4 +1,4 @@
-# Change Impact Map
+﻿# Change Impact Map
 
 These scenarios are navigation guidance derived from explicit file summaries
 in the generated docmap hierarchy. They are not a dependency graph or an
@@ -39,10 +39,10 @@ independent impact analysis.
 ## Output Format or Printer Behavior
 
 - Read `crates/printer/src/docmap.md` for standard, summary, path, and JSON
-  output.
+  output, including vimgrep start/end-column formatting.
 - Read `crates/core/docmap.md` for output coordination.
-- Review `tests/json.rs` and the output-related cases listed in
-  `tests/docmap.md`.
+- Review `tests/json.rs`, `tests/feature.rs`, and the output-related cases
+  listed in `tests/docmap.md`.
 
 ## Indexed Search
 

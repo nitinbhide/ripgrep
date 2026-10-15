@@ -1,6 +1,6 @@
----
+﻿---
 folder: "crates/printer/src"
-generated_on: "2026-10-06"
+generated_on: "2026-10-15"
 num_files: 13
 semantic_tags: [aggregate-output, aggregation, color, configuration, context-lines, crate-api, documentation, formatting, grep-output, grep-printer, hyperlinks, io, json, json-lines, macro, path, path-encoding, path-formatting, path-matching, path-output, printer, replacement, rust, search-output, search-results, serde, serialization, statistics, terminal-color, terminal-output, testing, uri-conversion, writer]
 todos_present: true
@@ -44,9 +44,9 @@ The implementation is Rust and integrates with `grep-searcher`, `grep-matcher`, 
     - Tags: [macro, rust, testing]
 - `path.rs` (Size : 6426 bytes): Implements `PathPrinterBuilder` and `PathPrinter` for emitting paths without executing a search. Builder configuration controls colors, hyperlinks, path separators, and terminators. The printer normalizes paths through the shared path utility and writes styling or hyperlink spans when its writer supports them. This offers path output consistent with the other printers.
     - Tags: [hyperlinks, path-output, printer, rust, terminal-color]
-- `standard.rs` (Size : 140275 bytes): Implements the configurable grep-like `Standard` printer and its `Sink` behavior for match and context events. Its builder controls headings, path and line display, per-match output, replacements, separators, color, hyperlinks, and statistics, while search configuration supplies additional context. Shared utilities handle path formatting, match iteration, and replacement. The implementation also includes output accounting and supports the crate's standard printer API.
+- `standard.rs` (Size : 142708 bytes): Implements the configurable grep-like `Standard` printer and its `Sink` behavior for match and context events. Its builder controls headings, path and line display, per-match output, replacements, separators, color, hyperlinks, end-column reporting, and statistics, while search configuration supplies additional context. Shared utilities handle path formatting, match iteration, and replacement. The implementation also includes output accounting and supports the crate's standard printer API.
     - Tags: [context-lines, grep-output, printer, rust, terminal-color]
-    - TODO/FIXME/NOTE: line 1569: `/// Note that this doesn't just return whether the searcher is in multi`
+    - TODO/FIXME/NOTE: line 1612: `/// Note that this doesn't just return whether the searcher is in multi`
 - `stats.rs` (Size : 5008 bytes): Defines `Stats`, an aggregate record for elapsed time, searches, searches with matches, bytes searched and printed, matched lines, and match counts. It provides getters and methods to add each measure. `Add` and `AddAssign` combine independent records, and the `serde` feature enables serialization. Printers use the record to report accumulated search results.
     - Tags: [aggregation, rust, serde, statistics]
 - `summary.rs` (Size : 41480 bytes): Implements the summary printer and its builder for count, path, and quiet output modes. It handles per-search sink events and can include statistics, configurable separators, colors, and hyperlinks. `SummaryKind` describes modes including counting lines or matches and selecting paths based on whether a match occurred. Its output can provide aggregate information without printing matching lines.

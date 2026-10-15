@@ -1,4 +1,4 @@
-# Technology Map
+﻿# Technology Map
 
 This map consolidates technology facts stated in the generated root and
 folder-level docmaps. It does not infer additional dependency relationships.

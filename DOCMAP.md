@@ -1,6 +1,6 @@
----
+﻿---
 folder: "/"
-generated_on: "2026-10-06"
+generated_on: "2026-10-15"
 num_files: 28
 semantic_tags: [ai-policy, application-manifest, bash, benchmarking, benchmark-runner, build-script, build-support, cargo, cargo-fuzz, changelog, checksums, ci, cli, command-line, command-line-search, command-line-tool, completion, configuration, contribution-guidance, dependency-lockfile, documentation, documentation-extraction, examples, faq, filtering, formatting, fuzzing, glob, glob-matching, homebrew, libfuzzer, license, linux, long-path-awareness, low-confidence, macos, manifest, mit, package-configuration, package-installation, packaging, performance-measurement, project-policy, public-domain, python, regex, release, release-history, release-process, ruby, rust, rust-examples, rustfmt, scripts, search, search-performance, shell, target-configuration, testing, tooling, troubleshooting, unlicense, user-documentation, utf-8, validation, verification, windows, workspace, zsh]
 todos_present: true
