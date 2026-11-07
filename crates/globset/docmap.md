@@ -30,8 +30,8 @@ Rust library crate; uses `regex-automata`, `regex-syntax`, `aho-corasick`, and `
   - Tags: [api, glob-matching, glob-parsing, glob-sets, hashing, hash-table, path-matching, path-parsing, performance, regex, rust, serde, serialization, string-processing]. TODO/FIXME/NOTE: present; see indexed files.
   This folder implements the `globset` crate's glob parsing and path-matching functionality. It provides public APIs for building individual glob patterns and sets of patterns, then matching candidate paths against them. Glob syntax is parsed into tokens and compiled into byte-oriented regular expressions, with specialized strategies to speed up common literal, basename, extension, prefix, and suffix cases. Supporting modules provide path component handling, an internal FNV hasher, and optional Serde integration.
 ## Files
-- `Cargo.toml` (Size : 1534 bytes): Declares the `globset` Rust library crate and its package metadata. It configures the crate's `regex-automata`, `regex-syntax`, `aho-corasick`, and `bstr` dependencies, along with optional serde and arbitrary support. The `simd-accel` feature is documented as deprecated and a no-op. Development dependencies support comparison and serialization tests.
-    - Tags: [cargo, dependencies, rust]
+- `Cargo.toml` (Size : 1455 bytes): Declares the `globset` Rust library crate, its package metadata, and its minimum Rust version. It configures the `regex-automata`, `regex-syntax`, `aho-corasick`, and `bstr` dependencies, with optional logging, Serde, and arbitrary-data support. Its default and opt-in features control those integrations, while `simd-accel` is documented as deprecated and a no-op. Development dependencies support comparison and serialization tests.
+    - Tags: [cargo, dependencies, features, rust]
 
 - `COPYING` (Size : 129 bytes): States that the project is free and unencumbered software released into the public domain. It summarizes permission to use, modify, and distribute the software and disclaims warranties and liability. The notice points readers to the Unlicense for additional information. It is the short public-domain licensing notice for this crate.
     - Tags: [license, unlicense]
@@ -48,17 +48,17 @@ Rust library crate; uses `regex-automata`, `regex-syntax`, `aho-corasick`, and `
     - Tags: [benchmarking, glob-matching, performance-testing, rust]
 - `src/fnv.rs` (Size : 795 bytes): Defines a crate-private `HashMap` alias configured with the module's `Hasher`, and implements the Fowler–Noll–Vo hash by XORing each input byte and multiplying with wrapping arithmetic. The hasher is used by the glob-set matching strategies for their lookup tables. Its implementation satisfies `std::hash::Hasher` through `finish` and `write`, with `Default` initializing the standard 64-bit FNV offset basis. No TODO, FIXME, or NOTE markers were found.
     - Tags: [hashing, hash-table, performance, rust]
-- `src/glob.rs` (Size : 62457 bytes): Defines `Glob`, `GlobBuilder`, and `GlobMatcher`, along with token and parser machinery that translates glob syntax into regular expressions. Builder options control case sensitivity, separator matching, backslash escapes, and other parsing or matching semantics. `MatchStrategy` recognizes patterns that can use literal, basename, extension, prefix, or suffix checks before falling back to regex matching; tests exercise parsing and match behavior. The file's documentation describes supported glob syntax and byte-oriented regex usage.
-    - Tags: [glob-matching, glob-parsing, regex, rust]
+- `src/glob.rs` (Size : 63936 bytes): Defines `Glob`, `GlobBuilder`, and `GlobMatcher`, and parses glob syntax into tokens that are compiled to byte-oriented regular expressions. Builder options control case sensitivity, separator matching, backslash escapes, empty alternates, and handling of unclosed character classes; parse failures are returned as structured errors. `MatchStrategy` identifies exact, basename, extension, prefix, suffix, and regex cases for optimized matching in the glob-set implementation. Tests cover parsing, strategy selection, and matching behavior.
+    - Tags: [glob-matching, glob-parsing, path-matching, regex, rust]
     - TODO/FIXME/NOTE: NOTE line 41 (exact marker `Note`)
-    - TODO/FIXME/NOTE: NOTE line 314 (exact marker `Note`)
-    - TODO/FIXME/NOTE: NOTE line 349 (exact marker `Note`)
-    - TODO/FIXME/NOTE: NOTE line 505 (exact marker `Note`)
-- `src/lib.rs` (Size : 41980 bytes): Provides the crate-level documentation and public API for `GlobSet`, `GlobSetBuilder`, `Candidate`, and glob parsing errors. It builds a set from patterns, prepares candidate paths, and returns whether any or all patterns match or the indices of matching patterns. Its internal matcher partitions patterns into specialized hash-map lookups and Aho–Corasick prefix/suffix searches, with regex-set and required-extension strategies handling the remaining cases. Tests and examples document set matching behavior; a TODO discusses the regex-set pattern pool and a future API change.
-    - Tags: [api, glob-sets, path-matching, rust]
+    - TODO/FIXME/NOTE: NOTE line 324 (exact marker `Note`)
+    - TODO/FIXME/NOTE: NOTE line 359 (exact marker `Note`)
+    - TODO/FIXME/NOTE: NOTE line 515 (exact marker `Note`)
+- `src/lib.rs` (Size : 47082 bytes): Provides the crate-level documentation and public API for `GlobSet`, `GlobSetBuilder`, `Candidate`, and glob parsing errors. The builder collects parsed patterns, and the set compiles them into matching strategies that report whether any or all patterns match or return matching pattern indices. `Candidate` normalizes a path and caches its bytes, basename, and extension for reuse across strategies; the set uses literal and extension lookups, Aho–Corasick prefix/suffix searches, and regex-based matching. Tests and examples exercise the public set-matching behavior, while the regex-set implementation reuses pooled pattern sets for match enumeration.
+    - Tags: [aho-corasick, api, glob-sets, hashing, path-matching, path-parsing, performance, regex, rust]
     - TODO/FIXME/NOTE: NOTE line 91 (exact marker `Note`)
-    - TODO/FIXME/NOTE: TODO line 970 (exact marker `TODO`)
-    - TODO/FIXME/NOTE: NOTE line 1119 (exact marker `note`)
+    - TODO/FIXME/NOTE: TODO line 978 (exact marker `TODO`)
+    - TODO/FIXME/NOTE: NOTE line 1137 (exact marker `note`)
 - `src/pathutil.rs` (Size : 4548 bytes): Implements byte-oriented helpers for extracting a path's final filename and extension while preserving borrowed data where possible. Its extension definition includes the leading dot and treats names such as `.rs` as having an extension, supporting the glob matcher’s extension optimizations. Platform-specific `normalize_path` keeps Unix paths unchanged and converts recognized non-Unix separators to `/`. Unit tests cover filename, extension, and normalization cases.
     - Tags: [path-parsing, rust, string-processing]
     - TODO/FIXME/NOTE: NOTE line 26 (exact marker `Note`)

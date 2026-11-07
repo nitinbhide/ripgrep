@@ -7,7 +7,7 @@ independent impact analysis.
 ## CLI Option or Command Behavior
 
 - Start with `crates/core/flags/docmap.md` for option parsing and
-  `crates/core/docmap.md` for dispatch and orchestration.
+  `crates/docmap.md` for dispatch and orchestration.
 - Consult `crates/core/flags/docmap.md` for flag definitions, generated help,
   man-page content, and completion summaries.
 - Review relevant CLI cases in `tests/docmap.md`, especially feature and
@@ -15,7 +15,7 @@ independent impact analysis.
 
 ## File Traversal, Ignore Rules, or Candidate Selection
 
-- Read `crates/core/docmap.md` for candidate and search orchestration.
+- Read `crates/docmap.md` for candidate and search orchestration.
 - Read `crates/ignore/docmap.md` for ignore rules, file types, and walking.
 - Review relevant behavior tests in `tests/docmap.md`, including the
   regression and feature suites.
@@ -31,7 +31,7 @@ independent impact analysis.
 ## Search Buffering, Multiline, Encoding, or Binary Behavior
 
 - Read `crates/searcher/src/docmap.md` for searcher behavior and
-  `crates/core/docmap.md` for its use by the executable.
+  `crates/docmap.md` for its use by the executable.
 - Read `crates/cli/docmap.md` for decompression utilities.
 - Review `tests/multiline.rs`, `tests/binary.rs`, feature/regression suites,
   and the merged fixture section of `tests/docmap.md` as relevant.
@@ -40,17 +40,9 @@ independent impact analysis.
 
 - Read `crates/printer/src/docmap.md` for standard, summary, path, and JSON
   output, including vimgrep start/end-column formatting.
-- Read `crates/core/docmap.md` for output coordination.
+- Read `crates/docmap.md` for output coordination.
 - Review `tests/json.rs`, `tests/feature.rs`, and the output-related cases
   listed in `tests/docmap.md`.
-
-## Indexed Search
-
-- Read the index crate summary in `crates/docmap.md` and feature-gated
-  integration summary in `crates/core/docmap.md`.
-- Review the merged index-test section of `tests/docmap.md`.
-- The root manifest describes `unstable-index` as active development and
-  potentially having serious bugs.
 
 ## Packaging or Release Workflow
 

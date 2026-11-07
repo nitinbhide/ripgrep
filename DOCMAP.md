@@ -1,6 +1,6 @@
 ﻿---
 folder: "/"
-generated_on: "2026-10-15"
+generated_on: "2026-11-07"
 num_files: 28
 semantic_tags: [ai-policy, application-manifest, bash, benchmarking, benchmark-runner, build-script, build-support, cargo, cargo-fuzz, changelog, checksums, ci, cli, command-line, command-line-search, command-line-tool, completion, configuration, contribution-guidance, dependency-lockfile, documentation, documentation-extraction, examples, faq, filtering, formatting, fuzzing, glob, glob-matching, homebrew, libfuzzer, license, linux, long-path-awareness, low-confidence, macos, manifest, mit, package-configuration, package-installation, packaging, performance-measurement, project-policy, public-domain, python, regex, release, release-history, release-process, ruby, rust, rust-examples, rustfmt, scripts, search, search-performance, shell, target-configuration, testing, tooling, troubleshooting, unlicense, user-documentation, utf-8, validation, verification, windows, workspace, zsh]
 todos_present: true
@@ -13,7 +13,7 @@ ripgrep is a cross-platform command-line tool for recursively searching files wi
 
 - Repository purpose: provide a fast, configurable, line-oriented recursive search utility.
 - Business domain: command-line text search and related Rust libraries.
-- Overall architecture summary: a Rust workspace separates the executable's orchestration from matcher, traversal, searcher, printer, CLI utility, and optional PCRE2/indexing crates.
+- Overall architecture summary: a Rust workspace separates the executable's orchestration from matcher, traversal, searcher, printer, and CLI utility crates, with optional PCRE2 integration.
 
 ## Technology Summary
 
@@ -21,13 +21,13 @@ Detected:
 
 - Languages: Rust, Python, shell, Ruby, XML, and Markdown documentation.
 - Frameworks and libraries: Rust regex crates, optional PCRE2 integration, glob matching, byte/string utilities, and terminal output crates.
-- Databases: Not identified in the generated repository summaries.
+- Databases: No schema definitions were reported by the repo-nav database check.
 - Build systems: Cargo workspace with a Rust 2024 edition and a declared minimum Rust version of 1.96.
 - Testing frameworks: Rust unit and integration tests, Cargo fuzz/libFuzzer, and CI shell checks.
 
 ## Architecture Summary
 
-The `rg` executable coordinates argument parsing, file traversal, search execution, and output through modular workspace crates. The matcher interface separates search orchestration from regex implementations, while the ignore-aware walker and searcher handle candidate files and input processing. Printer crates provide human-readable and JSON Lines output, and optional crates add PCRE2 and indexed-search support. Folder maps identify each module's implementation and associated tests.
+The `rg` executable coordinates argument parsing, file traversal, search execution, and output through modular workspace crates. The matcher interface separates search orchestration from regex implementations, while the ignore-aware walker and searcher handle candidate files and input processing. Printer crates provide human-readable and JSON Lines output, and optional PCRE2 integration adds regex features not provided by the default engine. Folder maps identify each module's implementation and associated tests.
 
 ## Business Capability Summary
 The repository supports recursive command-line search with automatic and explicit file filtering, configurable regex matching, and multiple output modes. Its documentation also describes multiline search, compressed input, non-UTF-8 encodings, preprocessing, and configuration files. Optional PCRE2 integration adds regex features not provided by the default engine. The repository includes packaging and benchmark tooling for release and performance workflows.
@@ -46,6 +46,7 @@ The `dependencies` metadata field remains an empty list until dependency extract
 - `TECHNOLOGY_MAP.md` — Languages, libraries, build tooling, and version information described by docmaps.
 - `TESTING_MAP.md` — Test suites, described coverage areas, fixtures, and CI test checks.
 - `CHANGE_IMPACT_MAP.md` — Common change scenarios mapped to files and docmaps explicitly identified in the hierarchy.
+- `SCHEMA_MAP.md` — Database schema objects mapped to defining files; none were detected in this DRF.
 
 ## Merged Child Folders
 `docmap.md` content from small folders is incorporated here only after every folder index has first been written in its source directory.
@@ -76,7 +77,7 @@ The `dependencies` metadata field remains an empty list until dependency extract
 ## Folders
 - `benchsuite/runs/docmap.md` — Index to dated benchmark archives, each containing raw measurements and summaries, with setup or version notes where recorded.
 - `crates/docmap.md` — Rust workspace crate indexes for command execution, traversal, matching, searching, and output.
-- `tests/docmap.md` — CLI integration suites, shared test support, fixture data, and index-feature cases.
+- `tests/docmap.md` — CLI integration suites, shared test support, fixture data, and feature cases.
 ## Files
 - `AI_POLICY.md` : Defines the project's policy for AI-assisted contributions, including human responsibility for published code and communication. It explains expectations for issue and pull-request authors and requires AI context in maintainer comments to be disclosed. It states that autonomous agents are not allowed to contribute to the project. The policy is the source of contribution-specific AI guidance.
     - Size : 1916 bytes
@@ -87,11 +88,11 @@ The `dependencies` metadata field remains an empty list until dependency extract
     - Tags: [build-script, cargo, rust, windows]
 
 - `Cargo.lock` : Records resolved versions, sources, checksums, and package relationships for the Rust workspace. Its entries include the application and its library crates as well as registry dependencies. Cargo marks the file as generated and not intended for manual editing. It provides a reproducible dependency-resolution snapshot for builds.
-    - Size : 14142 bytes
+    - Size : 13573 bytes
     - Tags: [cargo, dependency-lockfile, rust]
 
-- `Cargo.toml` : Defines the `ripgrep` package and the workspace members for its Rust crates. It sets the workspace edition to Rust 2024 and the minimum supported Rust version to 1.96, and configures the `rg` binary, integration tests, features, and release profiles. Package dependencies and Debian packaging metadata are also declared here. This is the primary workspace and executable build configuration.
-    - Size : 3670 bytes
+- `Cargo.toml` : Defines the `ripgrep` package and the workspace members for its Rust crates. It sets the workspace edition to Rust 2024 and the minimum supported Rust version to 1.96, and configures the `rg` binary, integration tests, the optional PCRE2 feature, and release profiles. Package dependencies and Debian packaging metadata are also declared here. This is the primary workspace and executable build configuration.
+    - Size : 3343 bytes
     - Tags: [cargo, package-configuration, rust, workspace]
 
 - `CHANGELOG.md` : Records release history, grouped by version with platform changes, performance improvements, feature enhancements, and bug fixes. Recent entries describe improvements to ignore matching, line buffering, command-line options, and platform support. The document provides historical context for behavior changes and release notes. A top-level unreleased section is present.
@@ -107,8 +108,8 @@ The `dependencies` metadata field remains an empty list until dependency extract
     - Size : 129 bytes
     - Tags: [license, mit, unlicense]
 
-- `FAQ.md` : Answers common questions about ripgrep's behavior, configuration, output, installation, and platform-specific usage. Topics include shell completion, encodings, compressed and multiline searches, PCRE2, colors, path behavior, and compatibility with grep-like tools. It points readers to the guide and changelog for further detail. The document serves as troubleshooting and feature-reference material.
-    - Size : 43306 bytes
+- `FAQ.md` : Answers common questions about ripgrep's behavior, configuration, output, and platform-specific usage. Topics include shell completion, encodings, compressed and multiline searches, PCRE2, colors, Windows path and PowerShell behavior, and compatibility with grep-like tools. It also explains search-and-replace limitations and points readers to the guide and changelog for further detail. The document serves as troubleshooting and feature-reference material.
+    - Size : 44398 bytes
     - Tags: [faq, troubleshooting, user-documentation]
     - TODO/FIXME/NOTE: line 83: `Note`; line 138: `Note`; line 149: `note`; line 395: `Note`; line 423: `Note`; line 633: `note`; line 741: `note`; line 894: `Note`
 
@@ -152,7 +153,7 @@ The `dependencies` metadata field remains an empty list until dependency extract
     - Tags: [checksums, release, shell, verification]
 - `ci/test-complete` (Size : 2969 bytes): Runs the built `rg` executable's help output through option extraction and compares the result with the options defined by the Zsh completion function. It locates release or debug binaries and the completion source relative to the script, then fails if either input is missing or the option lists differ. The script uses Zsh extended globbing and a temporary-process substitution to obtain completion arguments. It is a consistency test for CLI help and shell completion.
     - Tags: [completion, shell, testing, validation]
-- `ci/ubuntu-install-packages` (Size : 564 bytes): Installs the system packages used by Ubuntu-based build/test environments. It detects whether `sudo` is available, installs it when needed, then updates apt metadata and installs zsh, compression tools, musl tooling, and a C++ compiler. The comments explain the script's use in minimal environments. Package installation is performed without recommended extras.
+- `ci/ubuntu-install-packages` (Size : 556 bytes): Installs the system packages used by Ubuntu-based build and test environments. It checks whether `sudo` is available and installs it when needed, then updates apt metadata and installs zsh, compression tools, musl tooling, and a C++ compiler. The comments explain the script's use in minimal environments. Package installation is performed without recommended extras.
     - Tags: [ci, linux, package-installation, shell]
 - `ci/utils.sh` (Size : 2069 bytes): Defines shared Bash helpers for CI build and target selection. `cargo_out_dir` finds the most recent ripgrep build stamp, while other functions derive host, architecture, GCC prefix, operating-system predicates, and whether a target uses musl. `builder` selects `cross` for x86_64 musl targets and otherwise selects Cargo. The helpers use the CI environment variables `TRAVIS_OS_NAME` and `TARGET`.
     - Tags: [build-support, ci, shell, target-configuration]

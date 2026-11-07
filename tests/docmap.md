@@ -1,8 +1,8 @@
 ﻿---
 folder: "tests"
-generated_on: "2026-10-15"
-num_files: 22
-semantic_tags: [binary-detection, binary-fixtures, binary-search, binary-test-fixture, cli, cli-features, compressed-data, compressed-test-fixture, compression, crlf, indexing, integration-tests, json, macros, mmap, multiline-search, nul-byte, options, regression-tests, rust, search, search-tests, serialization, test-data, test-fixture, test-organization, test-suite, test-support, text, text-corpus, utilities]
+generated_on: "2026-11-07"
+num_files: 19
+semantic_tags: [binary-detection, binary-fixtures, binary-search, binary-test-fixture, cli, cli-features, compressed-data, compressed-test-fixture, compression, crlf, integration-tests, json, macros, mmap, multiline-search, nul-byte, options, regression-tests, rust, search, search-tests, serialization, test-data, test-fixture, test-organization, test-suite, test-support, text, text-corpus, utilities]
 todos_present: true
 dependencies: []
 confidence: high
@@ -11,12 +11,10 @@ confidence: high
 # Folder Overview
 
 ## Purpose
-This folder contains ripgrep's CLI integration tests and the shared test support used to run them. The Rust suites exercise core search features, binary data, JSON output, multiline matching, and historical regressions. A shared corpus, macros, and command helpers make test cases concise and consistent.
-The tests are grouped into modules, with fixed data and indexing cases documented in standalone child-folder maps.
-This index also incorporates small child folders inline; their original summaries and file entries are retained below.
+This folder contains ripgrep's CLI integration tests and the shared test support used to run them. The Rust suites exercise search features, binary data, JSON output, multiline matching, and historical regressions. A shared corpus, macros, and command helpers make test cases concise and consistent. The suites are organized into modules, and fixed input data is summarized inline below.
 ## Major Responsibilities
 
-Defines the integration-test suite through `tests.rs` and provides helpers for isolated working directories, command execution, output checks, and fixture data. Child folders contain fixed test data and focused index-feature tests, each with its own standalone docmap.
+Defines the integration-test suite through `tests.rs` and provides helpers for isolated working directories, command execution, output checks, and fixture data. The test modules cover CLI behavior and shared support; the fixed input fixtures are summarized inline.
 
 ## Technology Notes
 
@@ -28,17 +26,13 @@ The folder uses Rust test modules and exercises the ripgrep command-line executa
 - `data/` —
   - Tags: [binary-test-fixture, compressed-test-fixture, compression, nul-byte, search-tests, text-corpus]. TODO/FIXME/NOTE: none.
   This folder contains fixed input fixtures used by the integration tests. The fixtures include compressed forms of a Sherlock Holmes text and a text corpus containing a NUL byte. Eight compressed files are binary and cannot be summarized from their payloads here. Their intended test role is visible in the test sources, so confidence for those file descriptions is low.
-- `index/` —
-  - Tags: [indexing, integration-tests, options, rust, test-organization]. TODO/FIXME/NOTE: none.
-  This folder contains integration tests for ripgrep's indexing feature. Its module file groups a basic index interaction test and a suite documenting currently disallowed behavior. The tests use the shared integration-test command and directory helpers.
-  The source comments identify the disallowed cases as restrictions that may change over time.
 ## Files
 - `binary.rs` (Size : 18214 bytes): Tests detection and reporting of binary input, especially how NUL bytes interact with explicit versus recursive searches, `--binary`/`--text`, counts, and memory mapping. It uses the NUL-containing fixture in `data` to exercise matches before and after the binary marker. Assertions check output and whether searches fail or succeed for each mode. Comments note that memory-mapped handling differs and that some mmap tests are excluded on macOS.
     - Tags: [binary-detection, integration-tests, mmap, rust]
     - TODO/FIXME/NOTE: line 20 — `note`; line 31 — `Note`; line 66 — `Note`
 
-- `feature.rs` (Size : 39995 bytes): Contains feature-oriented CLI integration tests, with many cases linked in comments to issue numbers. The cases cover encoding, pattern sources, output fields including vimgrep end columns, glob and ignore handling, depth and size limits, sorting, statistics, multiline and CRLF behavior, replacements, and exit statuses. Its test cases construct temporary fixtures and check CLI output or errors. The suite is the stated location for tests of new ripgrep features.
-    - Tags: [cli-features, integration-tests, rust, search]
+- `feature.rs` (Size : 39718 bytes): Exercises ripgrep CLI features through issue-linked integration cases that create temporary files and directories and assert exact output or errors. Coverage includes encoding and pattern input, output fields and separators, filtering and ignore rules, traversal and sorting, search limits and statistics, multiline and CRLF behavior, replacements, and exit statuses. Some cases account for platform or regex-engine differences, and shared test helpers provide setup and command execution. `tests.rs` identifies this suite as the usual home for tests of new features.
+    - Tags: [cli-features, filtering, integration-tests, rust, search, search-output]
 
 - `hay.rs` (Size : 851 bytes): Defines shared Sherlock Holmes text constants in LF and CRLF forms. Other integration tests use these fixtures to check matching, line endings, and output formatting. The contents are string constants rather than test functions. The distinct line endings let callers select the matching fixture.
     - Tags: [crlf, rust, test-fixture, text]
@@ -52,14 +46,14 @@ The folder uses Rust test modules and exercises the ripgrep command-line executa
 - `misc.rs` (Size : 39815 bytes): Contains miscellaneous CLI tests for common searches, output formats, filtering and ignore rules, replacement, context, sorting, compressed input, and binary handling. Its opening comment says additions should generally go in the feature or regression suite instead. The tests use the shared Sherlock fixture and test helpers. Individual tests set up small directory trees and verify command results.
     - Tags: [cli, integration-tests, rust, search]
 
-- `multiline.rs` (Size : 4135 bytes): Tests multiline search behavior, including overlapping matches, newline matching, dot-all mode, only-matching output, vimgrep formatting with match end columns, stdin input, and context lines. The cases exercise ripgrep with the multiline option and compare exact results. Several cases use the shared Sherlock text fixture. The overlap tests create their own input text.
+- `multiline.rs` (Size : 4123 bytes): Tests multiline search behavior, including overlapping matches, dot/newline matching, only-matching output, and vimgrep output that reports the starting line of each multi-line match. Additional cases cover stdin input and contextual matches. Most cases use the shared Sherlock text fixture, while the overlap tests create their own input. Assertions compare exact CLI output or verify that unsupported matches fail.
     - Tags: [integration-tests, multiline-search, rust, search]
 
 - `regression.rs` (Size : 56506 bytes): Collects issue-referenced regression tests for search, path traversal, ignore and glob rules, output formats, regex behavior, and command exit statuses. Cases build minimal directories and assert results for previously reported edge cases, including platform-specific cases. Tests use the shared fixture and test-command helpers where needed. The source also records two unresolved TODO comments and two NOTE comments.
     - Tags: [integration-tests, regression-tests, rust, search]
     - TODO/FIXME/NOTE: line 179 — `TODO`; line 192 — `TODO`; line 574 — `Note`; line 1447 — `note`
 
-- `tests.rs` (Size : 693 bytes): Declares the integration-test modules for shared macros, corpus, utilities, and the binary, feature, index, JSON, miscellaneous, multiline, and regression suites. The index suite is conditionally included when the `unstable-index` feature is enabled. Its comments describe the focus of several suites and indicate where new feature tests should go. It is the module entry point for these integration tests.
+- `tests.rs` (Size : 607 bytes): Declares the integration-test modules for shared macros, the text corpus, utilities, and the binary, feature, JSON, miscellaneous, multiline, and regression suites. Comments describe the focus of several suites, direct new feature tests to the feature suite, and discourage adding more miscellaneous tests. It is the module entry point for these CLI integration tests.
     - Tags: [integration-tests, rust, test-organization]
 
 - `util.rs` (Size : 18504 bytes): Implements shared test helpers: temporary test directories, construction of ripgrep commands, input and output handling, assertions, line sorting, external-command checks, and cross-runner selection. `Dir` and `TestCommand` centralize setup and diagnostics for integration cases. The helper types provide methods for creating files and directories and configuring commands. Output failures include command, working-directory, and captured-output information.
@@ -83,12 +77,6 @@ The folder uses Rust test modules and exercises the ripgrep command-line executa
     - Tags: [compressed-test-fixture, compression, search-tests]
 - `data/sherlock.zst` (Size : 249 bytes): Compressed binary test data with a `.zst` filename. The payload is not readable as text. `tests/misc.rs` includes it in a compressed-search test. Details beyond this test-fixture role are unknown.
     - Tags: [compressed-test-fixture, compression, search-tests]
-- `index/basic.rs` (Size : 193 bytes): Declares a basic index UX test module. Its comment states that it covers basic user interactions with an index. The module declaration points to the implementation in the separate `basic` test module. The file itself contains no additional test logic.
-    - Tags: [indexing, integration-tests, rust, test-organization]
-- `index/disallowed.rs` (Size : 4903 bytes): Tests command options that are rejected when indexing is enabled, including binary/text handling, encodings, engine selection, ignore controls, globbing, traversal, preprocessing, and unrestricted modes. Each case invokes ripgrep and checks for an error. The tested list is explicitly described as restrictions that may be lifted. Shared test helpers provide the command and temporary test directory.
-    - Tags: [indexing, integration-tests, options, rust]
-- `index/mod.rs` (Size : 226 bytes): Declares the index test modules and documents their roles: basic index interactions and currently disallowed features. It serves as the index test suite's module entry point. The declarations keep the cases separated by subject. The comments frame the disallowed-feature list as current behavior rather than a permanent restriction.
-    - Tags: [indexing, integration-tests, rust, test-organization]
 
 ---
 
@@ -96,7 +84,7 @@ The folder uses Rust test modules and exercises the ripgrep command-line executa
 None.
 # Related Features
 
-The root test modules cover CLI search and output behavior, binary detection, JSON output, multiline matching, and regressions. The child indexes detail the fixed input data and indexing-specific test coverage.
+The root test modules cover CLI search and output behavior, binary detection, JSON output, multiline matching, and regressions. The merged `data/` section documents the fixed input fixtures used by those tests.
 
 # Agent Guidance
 

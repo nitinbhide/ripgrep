@@ -1,8 +1,8 @@
 ---
 folder: "crates/ignore"
-generated_on: "2026-10-06"
-num_files: 19
-semantic_tags: [api, bom-handling, cargo, crate-manifest, default-types, directory-matching, directory-traversal, directory-walking, documentation, error-handling, example, file-filtering, filename-matching, file-types, gitignore, glob-matching, ignore-crate, ignore-overrides, ignore-rules, incremental-matching, integration-tests, license, licensing, mit, parallelism, path-filtering, path-normalization, public-domain, regression-tests, rust, terms, test-fixture, test-fixtures, testing, unlicense, usage-example, utf-8, walker, whitelist]
+generated_on: "2026-11-07"
+num_files: 21
+semantic_tags: [api, benchmark-harness, benchmarking, benchmark-methodology, bom-handling, cargo, crate-manifest, default-types, directory-matching, directory-traversal, directory-walking, documentation, error-handling, example, file-filtering, filename-matching, filesystem-fixtures, file-types, gitignore, glob-matching, ignore-crate, ignore-overrides, ignore-rules, incremental-matching, integration-tests, license, licensing, mit, parallelism, path-filtering, path-normalization, public-domain, python-workloads, regression-tests, rust, terms, test-fixture, test-fixtures, testing, unlicense, usage-example, utf-8, walker, whitelist]
 todos_present: true
 dependencies: []
 ---
@@ -10,19 +10,29 @@ dependencies: []
 # Folder Overview
 
 ## Purpose
-This crate provides Rust APIs for matching ignore rules and for walking directory trees while honoring those rules. Its README describes filtering based on ignore files, globs, and file types, with lower-level matcher APIs available alongside the walker. `Cargo.toml` records the crate's Rust package settings and traversal, glob, and matching dependencies. The package includes a basic walker example and dual-license notices.
+This crate provides Rust APIs for matching ignore rules and for walking directory trees while honoring those rules. Its README describes filtering based on ignore files, globs, and file types, with lower-level matcher APIs available alongside the walker. `Cargo.toml` records the crate's Rust package settings and traversal, glob, and matching dependencies. The package includes a basic walker example and dual-license notices. The `benches` folder documents and implements performance workloads for traversal and incremental matching, indexed inline below.
 This index also incorporates small child folders inline; their original summaries and file entries are retained below.
 ## Major Responsibilities
 
-The package root documents installation and the public traversal use case; detailed implementations and tests are indexed in child folders. The `examples` folder demonstrates basic walking, and `src` contains the ignore matching and traversal implementation. The `tests` folder covers gitignore ancestor matching and byte-order-mark handling.
+The package root documents installation and the public traversal use case; detailed implementations and tests are indexed in child folders. The `examples` folder demonstrates basic walking, and `src` contains the ignore matching and traversal implementation. The `tests` folder covers gitignore ancestor matching and byte-order-mark handling. The standalone `benches` folder contains workloads for directory discovery and incremental ignore matching.
 
 ## Technology Notes
 
-The package is implemented in Rust and built with Cargo. Its documentation describes `.ignore` and `.gitignore` behavior; the manifest includes `walkdir`, `globset`, and regex-automata-based matching components.
+The package is implemented in Rust and built with Cargo. Its documentation describes `.ignore` and `.gitignore` behavior; the manifest includes `walkdir`, `globset`, and regex-automata-based matching components. The benchmark harness uses Rust's nightly test harness.
 
 # Folder Navigation
 
 ## Merged Child Folders
+- `benches/` —
+  - Tags: [benchmark-harness, benchmark-methodology, benchmarking, directory-traversal, filesystem-fixtures, gitignore, ignore-crate, incremental-matching, parallelism, python-workloads, rust, testing]. TODO/FIXME/NOTE: none.
+  This folder documents and implements performance benchmarks for directory discovery and incremental ignore matching in the `ignore` crate. The workloads model file-discovery and indexing operations described for Python development tools, including Ruff, ty, and uv. Synthetic project trees exercise variations in package layout, ignore rules, and traversal configuration. The benchmarks measure crate operations rather than end-to-end application performance.
+  Major responsibilities: `benches/README.md` explains the benchmark scenarios, fixture assumptions, and comparison methodology. `benches/workloads.rs` creates and removes deterministic filesystem fixtures, runs serial and parallel walks, and measures matcher construction and cached path checks. Assertions verify expected Python-file counts or match outcomes before and during timed iterations.
+  Technology notes: The benchmark harness is Rust code using the nightly `test` harness and the `ignore` crate's walker and matcher APIs. It creates filesystem fixtures locally and models ignore behavior with `.ignore`, `.gitignore`, and Git exclude rules.
+  Related features: This folder supports performance evaluation of the ignore-aware directory traversal and incremental path-matching capabilities described in `docmap.md`. Its benchmark scenarios focus on configurations and workloads associated with Python project discovery.
+  Read when: Read these files when evaluating traversal or ignore-matching performance, selecting a benchmark workload, or interpreting benchmark comparisons.
+  Modify when: Modify `benches/workloads.rs` when adding or adjusting a measured workload or its synthetic fixtures; update `benches/README.md` when benchmark coverage or measurement guidance changes.
+  Avoid modifying when: Avoid changing these benchmark files for functional changes to ignore matching or traversal; those implementations are indexed in the crate's `src` section.
+
 - `examples/` —
   - Tags: [directory-traversal, example, ignore-crate, rust]. TODO/FIXME/NOTE: none.
   This folder demonstrates using the `ignore` crate to traverse a directory tree. Its example accepts a root path and supports ordinary sequential walking as well as parallel walking. A third mode uses `walkdir` directly for comparison. All modes emit the discovered entry paths through a buffered stdout thread.
@@ -33,7 +43,7 @@ The package is implemented in Rust and built with Cargo. Its documentation descr
   - Tags: [bom-handling, gitignore, ignore-rules, integration-tests, rust, test-fixture, testing, utf-8]. TODO/FIXME/NOTE: none.
   This folder contains integration tests and fixture files for gitignore matching behavior. One test exercises path-or-parent matching over root and nested file and directory cases. Another verifies that a UTF-8 byte-order mark at the start of an ignore file is skipped. The fixtures encode the expected pattern rules used by these tests.
 ## Files
-- `Cargo.toml` (Size : 1281 bytes): Declares the `ignore` Rust package, its version, description, workspace edition, and Rust version requirement. It lists glob matching, traversal, logging, file identity, and regex-automata dependencies, including a Windows-specific helper. Development dependencies support byte strings and channels. The manifest declares a deprecated no-op SIMD feature.
+- `Cargo.toml` (Size : 1203 bytes): Declares the `ignore` Rust package, version, description, workspace edition, and Rust 1.88 minimum. It lists glob matching, traversal, logging, file identity, regex-automata, and Windows-specific dependencies; development dependencies support byte strings and channels. The manifest also declares the deprecated no-op `simd-accel` feature.
     - Tags: [cargo, crate-manifest, ignore-rules, rust]
 
 - `COPYING` (Size : 129 bytes): States that the package is dual-licensed under the Unlicense and MIT licenses. It permits use under either license. The file serves as the package-level license selector. Full license terms are in the adjacent license files.
@@ -47,44 +57,50 @@ The package is implemented in Rust and built with Cargo. Its documentation descr
 
 - `UNLICENSE` (Size : 1235 bytes): Publishes the software into the public domain and permits use, modification, compilation, sale, and distribution. It describes the dedication of copyright interest and supplies an as-is warranty and liability disclaimer. The file is the Unlicense option named by the package's dual-license notice. It includes a pointer to the Unlicense website.
     - Tags: [license, public-domain, unlicense]
+- `benches/README.md` (Size : 5932 bytes): Documents the workspace-discovery benchmark suite and maps its workloads to file-discovery and indexing operations used by Ruff, ty, and uv. It describes synthetic project layouts and the traversal, ignore-rule, and incremental-matching cases they exercise. It explains fixture setup, count checks, warm-cache measurement, and the exclusion of parsing and other application work from the measurements. It also gives nightly Cargo benchmark commands and guidance for comparable runs, including compiler settings, CPU affinity, and focused cases.
+    - Tags: [benchmark-methodology, benchmarking, directory-traversal, ignore-crate, incremental-matching, python-workloads, rust, testing]
+
+- `benches/workloads.rs` (Size : 19316 bytes): Implements nightly Rust benchmarks for the `ignore` crate's directory walking and incremental path matching. Its `Workspace` fixture builds synthetic Python project trees with configurable package counts, nesting, file counts, and ignore rules, then removes each tree after use. Benchmarks cover serial and parallel traversal, explicit and multiple roots, ignored workspace members, matcher construction, cold and cached matching, and configured glob or file-type filters. The harness checks expected file counts and match results, and measures crate operations without invoking the Python tools whose use cases the scenarios model.
+    - Tags: [benchmark-harness, directory-traversal, filesystem-fixtures, gitignore, ignore-crate, incremental-matching, parallelism, rust]
+
 - `examples/walk.rs` (Size : 1817 bytes): Reads command-line arguments to choose a path and a traversal mode. It demonstrates standard `ignore::Walk`, six-thread `WalkBuilder::build_parallel`, and direct `walkdir::WalkDir` iteration. Results are sent through a bounded channel and written as lossy path bytes by a buffered stdout thread. A local enum adapts both crates' directory-entry types to a common path accessor.
     - Tags: [directory-traversal, example, ignore-crate, rust]
 - `src/default_types.rs` (Size : 13899 bytes): Defines the crate's sorted built-in file-type names and their filename globs. The table covers many language, document, build, configuration, and data formats and is consumed by `TypesBuilder::add_defaults`. Aliases can map multiple names to the same extension patterns. The file also contains tests for representative default definitions.
     - Tags: [default-types, filename-matching, file-types, rust]
     - TODO/FIXME/NOTE: NOTE line 207 (exact marker `note`)
-- `src/dir.rs` (Size : 59980 bytes): Implements the internal hierarchical `Ignore` matcher used by the walker. It builds child matchers from directory-local `.ignore`, `.gitignore`, custom ignore files, Git exclude files, and parent/global sources, retaining parent relationships and caching compiled directory matchers. Matching combines override globs, ignore-file rules, file-type selection, and hidden-entry checks according to precedence. The module also handles partial errors, Git worktree metadata, and internal builder configuration.
+- `src/dir.rs` (Size : 63562 bytes): Implements the walker's persistent, directory-hierarchical `Ignore` matcher. It creates child matchers from local and parent `.ignore`/`.gitignore` rules, custom ignore files, Git excludes, global sources, and shared override and file-type matchers; compiled parent matchers are cached for reuse. Matching applies those sources with the crate's precedence rules and accounts for hidden paths. The module also handles partial errors, Git worktree metadata, and internal builder configuration.
     - Tags: [directory-matching, gitignore, ignore-rules, rust]
     - TODO/FIXME/NOTE: NOTE line 119 (exact marker `Note`)
-    - TODO/FIXME/NOTE: NOTE line 190 (exact marker `Note`)
+    - TODO/FIXME/NOTE: NOTE line 193 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 267 (exact marker `Note`)
-- `src/gitignore.rs` (Size : 33217 bytes): Implements Git-compatible parsing and matching for ignore-file globs without invoking the Git command-line program. `GitignoreBuilder` reads files or individual lines, compiles globs, and preserves partial errors; `Gitignore` matches paths and can check ancestors. The module also discovers global exclude-file locations from Git configuration and environment settings. Its tests exercise parsing, precedence, and matching details.
+- `src/gitignore.rs` (Size : 33308 bytes): Implements Git-compatible parsing and matching for ignore-file globs without invoking the Git command-line program. `GitignoreBuilder` reads files or lines, compiles glob sets, and preserves valid rules alongside partial errors; `Gitignore` matches paths and can test each ancestor up to its root. The module also handles BOM-prefixed files and discovers global exclude-file locations from Git configuration and environment settings. Its tests cover parsing, precedence, and matching behavior.
     - Tags: [gitignore, glob-matching, ignore-rules, rust]
     - TODO/FIXME/NOTE: NOTE line 5 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 101 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 217 (exact marker `NOTE`)
     - TODO/FIXME/NOTE: NOTE line 332 (exact marker `Note`)
-    - TODO/FIXME/NOTE: NOTE line 374 (exact marker `Note`)
-    - TODO/FIXME/NOTE: NOTE line 402 (exact marker `Note`)
-    - TODO/FIXME/NOTE: TODO line 553 (exact marker `TODO`)
-    - TODO/FIXME/NOTE: NOTE line 582 (exact marker `Note`)
-- `src/incremental.rs` (Size : 49383 bytes): Implements `IncrementalIgnore`, a matcher built from `WalkBuilder` configuration for checking individual root-relative paths. It lazily loads matchers for directory ancestors and caches allowed or ignored directories so repeated path checks can reuse that state. Results report ignore, whitelist, descent, and depth-filter status, with a second API for returning load errors. Its documentation notes that this snapshot-based interface is intended for sparse updates rather than full directory traversal.
+    - TODO/FIXME/NOTE: NOTE line 377 (exact marker `Note`)
+    - TODO/FIXME/NOTE: NOTE line 405 (exact marker `Note`)
+    - TODO/FIXME/NOTE: TODO line 556 (exact marker `TODO`)
+    - TODO/FIXME/NOTE: NOTE line 585 (exact marker `Note`)
+- `src/incremental.rs` (Size : 52787 bytes): Implements `IncrementalIgnore`, a matcher built from `WalkBuilder` configuration for checking individual root-relative paths without walking the whole tree. It lazily loads ignore matchers as paths are checked and caches allowed or ignored directories for repeated queries. `normalize` optionally converts absolute paths to root-relative form, while matching reports ignore, whitelist, depth, and descent status and can return load errors. The matcher snapshots each directory's ignore files when first loaded, so callers must rebuild it to observe later edits.
     - Tags: [ignore-rules, incremental-matching, path-filtering, rust]
-    - TODO/FIXME/NOTE: NOTE line 146 (exact marker `Note`)
-    - TODO/FIXME/NOTE: NOTE line 150 (exact marker `Note`)
+    - TODO/FIXME/NOTE: NOTE line 189 (exact marker `Note`)
+    - TODO/FIXME/NOTE: NOTE line 193 (exact marker `Note`)
 - `src/lib.rs` (Size : 19177 bytes): Defines the crate-level `Error` and generic `Match` types and their supporting conversions and formatting. It declares the internal traversal, matching, and utility modules while publicly exposing the gitignore, override, and file-type modules. The crate root re-exports the walker and incremental matcher APIs. Its tests cover shared error and match behavior.
     - Tags: [api, error-handling, ignore-crate, rust]
 - `src/overrides.rs` (Size : 10336 bytes): Provides public override-glob matchers and a builder for include/exclude-style patterns. It adapts gitignore glob parsing while reversing the interpretation of leading `!` for override semantics. A whitelist set treats nonmatching files as ignored, and the builder controls case sensitivity and unclosed character classes. Unit tests cover empty sets and matching behavior.
     - Tags: [glob-matching, ignore-overrides, rust, whitelist]
     - TODO/FIXME/NOTE: NOTE line 20 (exact marker `Note`)
     - TODO/FIXME/NOTE: TODO line 157 (exact marker `TODO`)
-- `src/pathutil.rs` (Size : 4961 bytes): Contains internal path helpers used by matching and traversal. It determines hidden paths, with Windows attribute checks in addition to dot-prefixed names, and implements platform-aware prefix stripping and filename extraction. It also determines whether a path is a single filename. Unix-specific code works on encoded path bytes where needed.
+- `src/pathutil.rs` (Size : 6591 bytes): Provides internal path utilities shared by ignore matching and traversal. It detects hidden paths and directory entries, checking the Windows hidden attribute as well as dot-prefixed names on Windows and dot-prefixed names elsewhere. It also strips path prefixes, detects bare filenames, and extracts the final normal path component. Unix implementations use encoded path bytes, with tests for dot components and trailing-dot names.
     - Tags: [path-filtering, path-normalization, rust]
 - `src/types.rs` (Size : 20424 bytes): Implements file-type definitions and a matcher that selects or negates groups of filename globs. `TypesBuilder` adds custom definitions, includes existing type definitions, adds defaults, and validates selections before compiling a `GlobSet`. The matcher reports whitelisted, ignored, or unmatched paths and uses pooled temporary match storage. Module documentation includes examples for defaults, negation, and custom type definitions.
     - Tags: [file-types, glob-matching, ignore-rules, rust]
     - TODO/FIXME/NOTE: NOTE line 10 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 61 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 103 (exact marker `Note`)
-- `src/walk.rs` (Size : 96183 bytes): Implements directory entry types, walker configuration, sequential iteration, and parallel traversal. `WalkBuilder` configures roots, ignore sources, depth and size limits, link handling, sorting, filters, and matcher construction; `Walk` yields filtered entries using the hierarchical ignore matcher. `WalkParallel` distributes directory work to worker threads and invokes per-thread visitors that can continue, skip descent, or stop the walk. The module also handles traversal errors, symlink loops, file-system boundaries, stdout avoidance, and platform-specific entry metadata.
+- `src/walk.rs` (Size : 97323 bytes): Implements directory entries, walker configuration, sequential iteration, and parallel traversal. `WalkBuilder` configures roots, ignore sources, depth and size limits, link handling, sorting, and filters; it can build a `Walk`, a parallel walker, or per-root `IncrementalIgnore` matchers. `Walk` yields filtered entries through the hierarchical ignore matcher, while `WalkParallel` distributes work to worker threads and calls per-thread visitors that can continue, skip descent, or stop. The module also handles traversal errors, symlink loops, file-system boundaries, stdout avoidance, and platform-specific entry metadata.
     - Tags: [directory-traversal, parallelism, rust, walker]
     - TODO/FIXME/NOTE: NOTE line 457 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 469 (exact marker `Note`)
@@ -117,7 +133,6 @@ The package is implemented in Rust and built with Cargo. Its documentation descr
 ---
 
 ## Links Child Folder docmaps
-None.
 # Related Features
 
 Ignore-file matching, file-type and glob filtering, and sequential or parallel recursive directory traversal.

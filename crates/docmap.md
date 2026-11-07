@@ -1,8 +1,8 @@
 ---
 folder: "crates"
 generated_on: "2026-10-06"
-num_files: 39
-semantic_tags: [api, api-facade, benchmarking, bom-handling, byte-analysis, captures, cargo, cargo-workspace, case-detection, cli, configuration, crate-manifest, database, default-types, directory-matching, directory-traversal, documentation, error-handling, example, facade, file-input, filename-matching, file-types, gitignore, glob-matching, glob-parsing, glob-sets, grep, grep-printer, grep-searcher, hashing, hash-table, hir-transformation, hyperlinks, ignore-crate, ignore-overrides, ignore-rules, incremental-matching, indexing, integration-tests, interpolation, library, library-facade, license, licensing, line-buffering, line-search, line-terminator, literal-analysis, literal-extraction, matcher, matcher-interface, matching, memory-mapping, mit, n-grams, optimization, parallelism, path-encoding, path-filtering, path-matching, path-normalization, path-parsing, pcre2, performance, performance-testing, printer, public-domain, query-analysis, recursive-search, re-exports, regex, regex-compilation, regex-hir, regex-search, regex-syntax, regex-validation, replacement, rust, search, search-configuration, searcher, search-events, searching, search-output, serde, serialization, sinks, smart-case, stdin, storage, string-processing, terminal-output, terms, test-fixture, testing, test-organization, test-support, unlicense, uri-conversion, utf-8, walker, whitelist, work-in-progress, workspace-crate]
+num_files: 38
+semantic_tags: [api, api-facade, benchmarking, bom-handling, byte-analysis, captures, cargo, cargo-workspace, case-detection, cli, command-dispatch, configuration, crate-documentation, crate-manifest, default-types, directory-matching, directory-traversal, documentation, error-handling, error-reporting, example, facade, file-input, filename-matching, file-traversal, file-types, filtering, gitignore, glob-matching, glob-parsing, glob-sets, grep, grep-printer, grep-searcher, hashing, hash-table, hir-transformation, hyperlinks, ignore-crate, ignore-overrides, ignore-rules, incremental-matching, integration-tests, interpolation, library, library-facade, license, licensing, line-buffering, line-search, line-terminator, literal-analysis, literal-extraction, logging, macros, matcher, matcher-interface, matching, memory-mapping, mit, optimization, parallelism, path-encoding, path-filtering, path-matching, path-normalization, path-parsing, pcre2, performance, performance-testing, preprocessing, printer, public-domain, recursive-search, re-exports, regex, regex-compilation, regex-hir, regex-search, regex-syntax, regex-validation, replacement, rust, search, search-configuration, searcher, search-events, searching, search-output, serde, serialization, sinks, smart-case, statistics, stdin, streaming-io, string-processing, terminal-output, terms, test-fixture, testing, test-organization, test-support, unlicense, uri-conversion, utf-8, walker, whitelist, workspace-crate]
 todos_present: true
 dependencies: []
 ---
@@ -10,11 +10,11 @@ dependencies: []
 # Folder Overview
 
 ## Purpose
-This folder contains the Rust crates that make up ripgrep's executable and reusable search libraries. The packages separate command-line orchestration, file traversal, matching, searching, and output into focused modules. Supporting crates provide glob matching, optional PCRE2 integration, and experimental index support. Each package map identifies its own source, examples, tests, configuration, and documentation.
+This folder contains the Rust crates that make up ripgrep's executable and reusable search libraries. The packages separate command-line orchestration, file traversal, matching, searching, and output into focused modules. Supporting crates provide glob matching and optional PCRE2 integration. Package maps and the inline core entries identify source, examples, tests, configuration, and documentation.
 This index also incorporates small child folders inline; their original summaries and file entries are retained below.
 ## Major Responsibilities
 
-The `core` crate implements the `rg` executable's command dispatch and search orchestration, while `cli` provides reusable command-line utilities. `ignore`, `matcher`, `regex`, `pcre2`, `searcher`, `printer`, and `grep` supply the traversal, matching, search, output, and facade layers. `globset` handles glob expressions and sets, and `index` provides optional index-oriented support.
+The `core` crate implements the `rg` executable's command dispatch and search orchestration, while `cli` provides reusable command-line utilities. `ignore`, `matcher`, `regex`, `pcre2`, `searcher`, `printer`, and `grep` supply the traversal, matching, search, output, and facade layers. `globset` handles glob expressions and sets.
 
 ## Technology Notes
 
@@ -23,6 +23,16 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
 # Folder Navigation
 
 ## Merged Child Folders
+- `core/` —
+  - Tags: [cli, command-dispatch, crate-documentation, error-reporting, file-traversal, filtering, logging, macros, matching, preprocessing, rust, search, statistics, streaming-io]. TODO/FIXME/NOTE: present; see indexed files.
+  This folder contains the executable core of ripgrep: its entry point, command dispatch, traversal coordination, search orchestration, and user-facing messages. The core README describes it as the layer that defines the CLI and connects matcher, searcher, and printer crates. File selection is mediated by haystack wrappers and the ignore-aware walker, while flag parsing prepares runtime configuration. The flag subsystem is documented in its surviving child map.
+  Major responsibilities: `core/main.rs` dispatches special modes, ordinary searches, file listing, type listing, and generated output, then maps results and errors to process exit codes. `core/search.rs` coordinates matcher, searcher, printer, preprocessors, and parallel workers. Supporting modules define candidate haystacks, logging, and conditional user-message/exit-error state.
+  Technology notes: The executable is implemented in Rust and composes the workspace's `grep`, `ignore`, and terminal-output facilities. Parallel traversal and search are used when configured.
+  Related features: Ripgrep command execution, file traversal, search and output coordination, and command-line parsing.
+  Read when: Changing top-level CLI behavior, traversal or search dispatch, candidate-file selection, message handling, or integration of the core search components.
+  Modify when: The change affects the executable's coordination of parsing, walking, searching, output, or exit status.
+  Avoid modifying when: The change is isolated to a reusable matcher, printer, walker, or CLI utility crate and does not affect core orchestration.
+
 - `grep/` —
   - Tags: [api, cargo, cli, crate-manifest, documentation, example, facade, library, license, licensing, mit, pcre2, public-domain, recursive-search, re-exports, rust, terms, unlicense]. TODO/FIXME/NOTE: present; see indexed files.
   This crate presents ripgrep's component crates as a high-level Rust library facade. Its public library re-exports command-line helpers, matcher implementations, printers, and searchers under a single `grep` namespace. The crate manifest makes PCRE2 support optional and keeps older SIMD feature names as deprecated no-op compatibility features. `README.md` documents installation and explicitly notes the lack of a high-level integration guide.
@@ -32,12 +42,6 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
 - `grep/src/` —
   - Tags: [api, facade, re-exports, rust]. TODO/FIXME/NOTE: none.
   This folder defines the public library facade for the `grep` crate. Its single source file re-exports the crate components that provide command-line helpers, matchers, printers, regex support, and searching. PCRE2 is conditionally re-exported only when its feature is enabled. The module documentation says that constituent crates have API documentation but that high-level integration guidance and examples remain sparse.
-- `index/` —
-  - Tags: [api, cargo, crate-manifest, database, documentation, indexing, license, mit, n-grams, public-domain, query-analysis, regex-hir, rust, storage, unlicense, work-in-progress]. TODO/FIXME/NOTE: present; see indexed files.
-  This package is the `grep-index` crate, described by its manifest as grep with an index. It contains an index database API and an experimental literal-to-ngram query builder under `src/`. The README is a five-byte `WIP` marker rather than substantive user documentation. The source folder has its own standalone index.
-- `index/src/` —
-  - Tags: [api, database, indexing, n-grams, query-analysis, regex-hir, rust, storage]. TODO/FIXME/NOTE: present; see indexed files.
-  This source folder implements the index crate's database handle and pattern-analysis primitives. `index.rs` wraps `redb` and discovers a database using an environment setting or ancestor directory. `literal.rs` analyzes regex HIR into boolean queries over literal n-grams and tracks exact, prefix, and suffix candidates. `lib.rs` exposes the database and literal-query modules.
 - `matcher/` —
   - Tags: [api, captures, cargo, crate-manifest, documentation, integration-tests, interpolation, license, matcher, matcher-interface, mit, public-domain, regex, replacement, rust, search, testing, test-organization, test-support, unlicense]. TODO/FIXME/NOTE: present; see indexed files.
   This crate defines a low-level, implementation-independent interface for regex and substring matchers used by grep search. The manifest names the package `grep-matcher` and describes a trait oriented toward line-based search. Its `src/` module provides the public API, while `tests/` contains integration coverage using the regex crate. Separate folder maps document both code areas.
@@ -63,7 +67,20 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
   - Tags: [example, rust, search, stdin]. TODO/FIXME/NOTE: none.
   This folder demonstrates using `grep-searcher` to search standard input. The example accepts a regular-expression pattern from the command line and constructs a regex matcher. It sends matching UTF-8 lines to a sink closure that prints line numbers and contents. This provides a compact usage example for the crate's search-reader API.
 ## Files
-- `grep/Cargo.toml` (Size : 1129 bytes): Declares the `grep` Rust library package, version and workspace language settings. It lists the local grep component crates used by the facade and optional PCRE2 integration. The `pcre2` Cargo feature enables the optional backend, while the SIMD feature names are explicitly deprecated. Development dependencies support the example and terminal output.
+- `core/README.md` (Size : 689 bytes): Describes the role of the ripgrep core crate, identifying `main.rs` as the executable entry point and summarizing the CLI definition and glue between matcher, searcher, and printer crates. It notes that core is not planned as an independent library and that reusable heavy lifting lives in constituent crates. Tags: [crate-documentation, rust, search].
+
+- `core/haystack.rs` (Size : 5901 bytes): Wraps ignore-walker directory entries in `Haystack` and filters entries that should be searched. Explicitly supplied non-directory entries and stdin are retained, while implicitly discovered candidates must be files; walker errors are reported through the core message path. The builder can also strip a leading `./` from displayed paths. Tags: [file-traversal, filtering, rust, search]. TODO/FIXME/NOTE: NOTE line 128 (exact marker `note`).
+
+- `core/logger.rs` (Size : 2196 bytes): Implements a small `log::Log` backend that writes records to stderr with available target, file, and line metadata. It relies on the global maximum log level for filtering and initializes itself as the process-wide logger. Tags: [logging, rust].
+
+- `core/main.rs` (Size : 18962 bytes): Implements ripgrep's process entry point and routes parsed arguments to special modes, search, file listing, type listing, or generated output. Search and listing use sequential or parallel traversal according to the configured thread count, with the ignore-aware walker and core search worker handling candidates. It writes generated help, version, man-page, and shell-completion output, and reports search statistics when requested. Broken pipes are treated as graceful termination, while other failures and accumulated non-fatal errors determine the process exit status. Tags: [cli, command-dispatch, error-handling, file-traversal, rust, search, statistics]. TODO/FIXME/NOTE: NOTE line 430 (exact marker `Note`).
+
+- `core/messages.rs` (Size : 5182 bytes): Defines atomic process-wide switches for ordinary and ignore-related messages and tracks whether a non-fatal error occurred. Its macros serialize stderr output against stdout writes and update error state so the executable can choose an exit code. Tags: [error-reporting, logging, macros, rust]. TODO/FIXME/NOTE: NOTE line 121 (exact marker `Note`).
+
+- `core/search.rs` (Size : 16364 bytes): Defines the search-worker builder and worker that connect a pattern matcher, searcher, and printer. It handles file-level preprocessing and decompression before passing content to the searcher, and provides the per-path and reader search routines used by core execution. Tags: [matching, preprocessing, rust, search, streaming-io]. TODO/FIXME/NOTE: NOTE line 121 (exact marker `Note`).
+---
+
+- `grep/Cargo.toml` (Size : 1053 bytes): Declares the `grep` Rust library package and inherits its edition and minimum Rust version from the workspace. Its dependencies assemble the component crates behind the facade, with PCRE2 optional and enabled through the `pcre2` feature. Development dependencies support the example's terminal-aware output and filesystem traversal. The legacy SIMD feature names are explicitly deprecated because runtime dispatch is used.
     - Tags: [cargo, crate-manifest, pcre2, rust]
 - `grep/COPYING` (Size : 129 bytes): States that the package is dual-licensed under the Unlicense and MIT licenses. It permits use under either license. The file serves as a brief package-level license selector. Full license terms are in the adjacent license files.
     - Tags: [license, licensing, terms]
@@ -81,24 +98,7 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
     - Tags: [cli, example, recursive-search, rust]
 - `grep/src/lib.rs` (Size : 677 bytes): Documents the crate as a library facade and describes the lack of a high-level guide for composing its components. It publicly re-exports `grep-cli`, `grep-matcher`, `grep-printer`, `grep-regex`, and `grep-searcher` under short module names. It conditionally re-exports `grep-pcre2` when the `pcre2` feature is active. The file is the crate's public entry point rather than a search implementation.
     - Tags: [api, facade, re-exports, rust]
-- `index/Cargo.toml` (Size : 589 bytes): Declares the unpublished `grep-index` package, its indexing description, metadata, Rust 2024 edition, and minimum Rust version 1.96. It lists dependencies for database storage, finite-state transducers, regex HIR, byte strings, and error context. The package is distinct from the workspace's other grep crates by its index-oriented description and publication setting. It is the package build configuration.
-    - Tags: [cargo, crate-manifest, indexing, rust]
-- `index/LICENSE-MIT` (Size : 1102 bytes): Contains the MIT License grant and conditions for use, modification, distribution, and sublicensing. It requires preserving the copyright and permission notice in copies or substantial portions. It disclaims warranties and liability. This is one of the crate's two licensing texts.
-    - Tags: [license, mit]
-- `index/README.md` (Size : 5 bytes): Contains only the text `WIP`. It provides no substantive usage, architecture, or feature description. Its size and content indicate that package documentation is unfinished. Consult the Rust source and manifest for current package evidence.
-    - Tags: [documentation, work-in-progress]
-- `index/UNLICENSE` (Size : 1235 bytes): Dedicates the software's copyright interest to the public domain and grants broad rights to use, copy, modify, publish, compile, sell, and distribute it. It states that the software is provided without warranty and limits liability. It directs readers to unlicense.org for more information. This file is the crate's public-domain licensing alternative.
-    - Tags: [license, public-domain, unlicense]
-- `index/src/index.rs` (Size : 6138 bytes): Defines `Index`, `IndexBuilder`, `IndexDiscovery`, and an internal handle distinguishing read-only from read-write databases. The builder creates or opens `index.db` through `redb`, adding path context to errors and rejecting write access on a read-only handle. Discovery checks a configurable environment variable and then walks the current directory's ancestors for the configured index directory. The implementation has TODOs to retry when the database is already open.
-    - Tags: [database, indexing, rust, storage]
-    - TODO/FIXME/NOTE: TODO line 61 (exact marker `TODO`)
-    - TODO/FIXME/NOTE: TODO line 71 (exact marker `TODO`)
-- `index/src/lib.rs` (Size : 110 bytes): Serves as the crate root for this source module. It allows warnings, re-exports `Index`, `IndexBuilder`, and `IndexDiscovery`, and exposes the `literal` module publicly. The re-exports define the database API available from the crate root. The file contains no additional implementation logic.
-    - Tags: [api, indexing, rust]
-- `index/src/literal.rs` (Size : 31941 bytes): Defines `GramQuery` as a literal, conjunction, or disjunction and builds query expressions from regex HIR. Its `Analysis` and `LiteralSet` helpers combine exact strings, prefixes, suffixes, and n-grams across alternations, concatenations, repetitions, and character classes. `GramQueryBuilder` exposes n-gram size and expansion limits, while factoring and canonicalization simplify generated boolean expressions. Embedded tests verify sliding-window grams and expected queries for representative patterns; the module header describes the implementation as a prototype.
-    - Tags: [indexing, n-grams, query-analysis, regex-hir, rust]
-    - TODO/FIXME/NOTE: TODO line 557 (exact marker `TODO`)
-- `matcher/Cargo.toml` (Size : 722 bytes): Declares the `grep-matcher` package, its line-oriented matcher description, crate metadata, dual license, and workspace Rust settings. It disables automatic integration-test discovery and declares the `integration` test target explicitly. `memchr` is the package dependency and `regex` is used for development tests. The file controls package and test-target configuration.
+- `matcher/Cargo.toml` (Size : 643 bytes): Declares the `grep-matcher` package and its line-oriented matcher purpose, crate metadata, dual license, and workspace Rust settings. It disables automatic integration-test discovery and explicitly declares the `integration` test target. `memchr` is the runtime dependency and `regex` is used for development tests.
     - Tags: [cargo, crate-manifest, matcher, rust]
 - `matcher/LICENSE-MIT` (Size : 1102 bytes): Contains the MIT License grant and conditions for use, modification, distribution, and sublicensing. It requires preservation of the copyright and permission notice in copies or substantial portions. It disclaims warranties and liability. This is one of the crate's two licensing texts.
     - Tags: [license, mit]
@@ -125,7 +125,7 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
     - Tags: [integration-tests, rust, test-organization]
 - `matcher/tests/util.rs` (Size : 2604 bytes): Defines regex-backed `Matcher` adapters with capture support and without it, plus a `RegexCaptures` wrapper over regex capture locations. The capture-capable adapter implements core search and capture methods while leaving other methods to exercise trait defaults. The no-capture adapter exposes `NoCaptures` and only implements required operations. Tests in `test_matcher.rs` use these helpers to validate the trait contract.
     - Tags: [matcher, regex, rust, test-support]
-- `pcre2/Cargo.toml` (Size : 655 bytes): Declares the `grep-pcre2` Rust package and its metadata. It configures the `grep-matcher`, `log`, and `pcre2` dependencies. The package inherits its Rust edition and minimum version from the workspace. This manifest connects the PCRE2 adapter to the matcher API used by grep.
+- `pcre2/Cargo.toml` (Size : 578 bytes): Declares the `grep-pcre2` Rust package and its metadata, inheriting edition and minimum Rust version from the workspace. Its dependencies are `grep-matcher`, `log`, and the PCRE2 binding crate. The manifest configures the adapter package used to connect PCRE2 matching to grep.
     - Tags: [cargo, crate-manifest, pcre2, rust]
 - `pcre2/LICENSE-MIT` (Size : 1102 bytes): Contains the MIT license terms and the 2015 Andrew Gallant copyright notice. It grants rights to use, modify, distribute, sublicense, and sell the software subject to retaining the notice. It includes the standard warranty and liability disclaimer. This file provides the MIT licensing option for the crate.
     - Tags: [license, mit]
@@ -143,7 +143,7 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
     - TODO/FIXME/NOTE: NOTE line 112 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 218 (exact marker `Note`)
     - TODO/FIXME/NOTE: NOTE line 383 (exact marker `Note`)
-- `printer/Cargo.toml` (Size : 1524 bytes): Declares the `grep-printer` package, version, descriptive metadata, workspace Rust settings, and feature configuration. The default `serde` feature enables optional serialization dependencies. Runtime dependencies include the matcher, searcher, terminal-color, byte-string, logging, and JSON crates. Dev dependencies and docs.rs settings describe test and documentation builds.
+- `printer/Cargo.toml` (Size : 1445 bytes): Declares the `grep-printer` package, its metadata, and workspace Rust settings. The default `serde` feature enables optional serialization dependencies; runtime dependencies cover byte strings, matcher and searcher APIs, logging, terminal colors, and JSON serialization. A regex development dependency supports tests, while docs.rs is configured to build all features with documentation-only cfg support.
     - Tags: [cargo, crate-manifest, printer, rust]
 - `printer/LICENSE-MIT` (Size : 1102 bytes): Contains the MIT License grant and conditions. It permits use, modification, distribution, sublicensing, and sale subject to retaining the copyright and permission notice. It disclaims warranties and liability. The file supplies one of the package's declared licensing options.
     - Tags: [license, mit]
@@ -152,7 +152,7 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
     - TODO/FIXME/NOTE: NOTE line 15 (exact marker `NOTE`)
 - `printer/UNLICENSE` (Size : 1235 bytes): Releases the software into the public domain and describes the associated dedication. It permits copying, modification, publication, use, compilation, sale, and distribution. It disclaims warranties and liability. The file is the second license option declared by the package manifest.
     - Tags: [license, public-domain, unlicense]
-- `searcher/Cargo.toml` (Size : 1075 bytes): Declares the `grep-searcher` package, version, description, documentation links, and workspace Rust settings. Runtime dependencies cover byte handling, encoding, matching, logging, byte search, and memory mapping. Dev dependencies provide regex matchers and regex-based tests. Two documented SIMD feature flags are marked deprecated because runtime dispatch is used instead.
+- `searcher/Cargo.toml` (Size : 995 bytes): Declares the `grep-searcher` package and its workspace Rust settings. Runtime dependencies provide byte handling, encoding, matcher integration, logging, byte searching, and memory mapping; development dependencies add regex-backed testing support. The legacy SIMD feature names are deprecated because runtime dispatch is used.
     - Tags: [cargo, crate-manifest, rust, searcher]
 - `searcher/LICENSE-MIT` (Size : 1102 bytes): Contains the MIT License grant and conditions. It permits use, modification, distribution, sublicensing, and sale subject to retaining the copyright and permission notice. It disclaims warranties and liability. The file supplies one of the package's declared licensing options.
     - Tags: [license, mit]
@@ -168,12 +168,13 @@ The packages are Rust Cargo workspace members using the Rust 2024 workspace edit
 
 ## Links Child Folder docmaps
 - `cli/docmap.md` — Reusable Rust CLI utilities for terminal output, process handling, pattern and byte processing, and decompression.
-- `core/docmap.md` — `rg` executable dispatch, traversal coordination, search orchestration, messages, flags, and optional index support.
-- `globset/docmap.md` — Cross-platform glob and glob-set matching, with source implementation and matching benchmarks.
-- `ignore/docmap.md` — Ignore-rule matching, file-type filtering, and sequential or parallel directory walking.
+- `core/flags/docmap.md` — Defines ripgrep's CLI flag model, parser, and conversion of raw arguments into validated search configuration; shared flag metadata also drives help, manual, and shell-completion output, and configuration arguments are loaded through `RIPGREP_CONFIG_PATH`.
+
+- `globset/docmap.md` — Rust crate for compiling glob expressions into cross-platform path matchers and sets, with optional serialization and arbitrary-data features; source and benchmarks are indexed separately.
+- `ignore/docmap.md` — Rust APIs for matching ignore rules and walking directory trees while honoring ignore files, globs, and file types; includes examples, implementation, tests, and traversal benchmarks.
 - `printer/src/docmap.md` — Describes printer implementations, formatting helpers, and the crate's public API.
-- `regex/docmap.md` — Rust regex implementation of the grep matcher interface, including HIR and matching support.
-- `searcher/src/docmap.md` — Describes searcher APIs, line buffering, sink callbacks, and search execution.
+- `regex/docmap.md` — Connects Rust's regular-expression engine to the `grep-matcher` interface for line-oriented search, with matcher configuration, HIR processing, and source details indexed separately.
+- `searcher/docmap.md` — Searcher crate package files and public API; implementation details are indexed in its `src` child map.
 # Related Features
 
 Rust implementation of the ripgrep executable and its reusable traversal, matching, search, and output libraries.

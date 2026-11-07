@@ -27,7 +27,7 @@ there.
 - **Design/source:** The matcher contract, PCRE2 integration, and glob
   matching are summarized in `crates/docmap.md`; the Rust regex backend is
   indexed in `crates/regex/docmap.md`. Core flag parsing and search dispatch
-  are described in `crates/core/docmap.md`; vimgrep column configuration is
+  are described in `crates/docmap.md`; vimgrep column configuration is
   detailed in `crates/core/flags/docmap.md`.
 - **Tests:** The feature, regression, and multiline entries in
   `tests/docmap.md` cover CLI behavior. Matcher tests are summarized in
@@ -62,18 +62,6 @@ there.
   fixtures are summarized in the merged `tests/data` section of that map.
 - **Documented markers:** See the source and test map entries for explicit
   notes and TODOs.
-
-## Optional Indexed Search
-
-- **Requirement/documentation:** `Cargo.toml` declares the `unstable-index`
-  feature and documents it as active development that may have serious bugs.
-- **Design/source:** Index APIs and literal-to-ngram query construction are
-  summarized in `crates/docmap.md`; feature-gated CLI integration is
-  described in `crates/core/docmap.md`.
-- **Tests:** The merged index-test section of `tests/docmap.md` identifies
-  integration tests for index-mode behavior and disallowed options.
-- **Documented markers:** The `unstable-index` limitation is explicit in the
-  root manifest description; see the index and test maps for any file markers.
 
 ## Release, Packaging, and Performance Support
 
